@@ -47,12 +47,19 @@ calculated population
 
 
     def herbivore_eat(self, food_eaten)
-    """
-    Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder, 
-    How much food is eaten and calculate how much food is left. 
-    """
-    self.food_count -= food_eaten
-    self.amount_of_food = self.get_amount_of_food()
+        """
+        Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder, 
+        How much food is eaten and calculate how much food is left. 
+        """
+        self.food_count -= food_eaten
+        self.amount_of_food = self.get_amount_of_food()
+
+    def Herbivores_food(self)
+        """
+        The food grows every year before the herbivores eat, the amount of food growing every year is
+        given
+        """
+        self.amount_of_food = cls.parameters[f_max]
 
 
 
