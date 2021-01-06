@@ -88,12 +88,18 @@ class Landscape():
         will be added to the new population
         """
 
-        Herbivores_count
+        Herbivores_present_count = self.get_number_of_Herbivores():
+        for animal in self.population_Herbivore[:Herbivores_present_count]:
+            Born_new_weight = animal.birth_and_weight(Herbivores_present_count)
+            if Born_new_weight is float:
+                self.population_Herbivore.append(
+                    Herbivore({"age": 0, "weight": Born_new_weight})
+                )
+
+    def Herbivore_available_food(self):
 
 
-    def Herbivore_available_food
-
-    def Herbivore_eat(self, food_eaten)
+    def Herbivore_eat(self)
         """
         Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder, 
         How much food is eaten and calculate how much food is left. 
