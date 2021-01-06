@@ -87,7 +87,8 @@ class Landscape():
         Since there should be more than one of the same animal the population will be extended, so the newborns
         will be added to the new population
         """
-        Herbivores_present_count = self.get_number_of_Herbivores()
+
+        Herbivores_count
 
 
     def Herbivore_available_food
