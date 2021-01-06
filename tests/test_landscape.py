@@ -5,12 +5,19 @@ __email__ = 'anish.thangalingam@nmbu.no'
 
 from biosim.landscape import *
 
-def test_get_number_of_Herbivores(self):
+def test_animal_aging():
     """
-    Return number of Herbivores in this landscape
+    Tests if the animals are aging by one year every year
     """
-    self.population_Herbivore = [2]
+    present_animal_age = 5
+    aged_animal_age = 6
+    assert animal_aging(present_animal_age) == aged_animal_age
 
-    assert get_number_of_Herbivores(self.population_Herbivore) == 2
+def test_animal_death():
+    """
+
+    """
+
+def test_animal_weight_loss():
 
 
