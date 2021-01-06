@@ -3,10 +3,14 @@
 __author__ = 'Anish Thangalingam'
 __email__ = 'anish.thangalingam@nmbu.no'
 
+from biosim.landscape import *
 
-def testget_number_of_Herbivores(self):
+def test_get_number_of_Herbivores(self):
     """
     Return number of Herbivores in this landscape
     """
+    self.population_Herbivore = [2]
 
-    return len(self.population_Herbivore)
+    assert get_number_of_Herbivores(self.population_Herbivore) == 2
+
+

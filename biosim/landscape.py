@@ -75,7 +75,7 @@ class Landscape():
         for animal in self.population_Herbivore + self.population_Carnivore
             animal.weight_lose()
 
-    def Herbivore_annual_food(self):   #Mat hvertår
+    def Herbivore_annual_food(self):
         """
         Sets a fixed amount of food every year to a landscape
         """
@@ -96,20 +96,37 @@ class Landscape():
                     Herbivore({"age": 0, "weight": Born_new_weight})
                 )
 
-    def Herbivore_available_food(self):
+    def Herbivore_available_food(self): #!!!!!!
+        """
+        Counts available food
+        """
+        food_amount_needed = Herbivore.parameters["F"]
+        Current_food_amount = self.amount_of_food()
+        if 0 < self.amount_of_food < food_amount_needed:
+            self.amount_of_food=0
+            return Current_food_amount
+        elif food_amount_needed >= self.amount_of_food:
+            self.amount_of_food -= food_amount_needed
+            return food_amount_needed
+        else:
+            return 0
 
-
-    def Herbivore_eat(self)
+    def Herbivore_eat(self):
         """
         Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder, 
         How much food is eaten and calculate how much food is left. 
         """
-    def Eaten_Herbivores(self)
+
+        for Herbivore in self.population_Herbivore:
+            Herbivore.eat(self.Herbivore_available_food())
+
+    def Eaten_Herbivores(self):
         """
         The food grows every year before the herbivores eat, the amount of food growing every year is
         given
         """
 
+"""
 class Highland(Landscape):
     parameters = {"f_max": 300}
 
@@ -121,20 +138,5 @@ class Water(Landscape):
 
 class Desert(Landscape):
     parameters = {"f_max": 0}
-
 """
-Got to find out the population in each landscape to know how many species each landscape will have
-the animal. The parameters is not mentioned in the landscape class, but in the subclasses we have an amount 
-of food which the animal gets every year.  
 
-
-Population
-Fitness, the weakest will get eaten first
-fodder
-calculated population
-"""
-# De ulike funksjonene
-# Mengden mat og bestemt mat hvert år. 300 fmax hvert år
-# Population
-# Fodder
-# Amount
