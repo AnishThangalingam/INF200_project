@@ -103,3 +103,34 @@ class Animal:
 
         if birth_probability >= create_random_number:
             return True
+
+    def birth_and_weight(self, number_of_animal):
+        """
+        Checks if a child is born and finds the weight after birth.
+        Amount og weight the mother lose is is weight of the new born
+        baby times th xi parameter
+        """
+        weight_at_birth = self.calculated_weight()
+        # Or random.gauss(self.parameters["w_birth"], self.parameters["sigma_birth"])
+        checks_birth = self.birth_take_place(number_of_animal)
+        reduce_weight = weight_at_birth * self.parameters['xi']
+
+        if reduce_weight < self.weight and weight_at_birth > 0 and checks_birth is True:
+            self.weight -= reduce_weight
+            self.fitness = self.get_fitness()
+            return weight_at_birth
+
+    def death(self):
+        """
+        If the weight is 0 than the animal is dead.
+        If the weight is greater than 0 than we have to compare
+        the death probability against a random number and will return
+        the result, either False or True
+        :return:
+        """
+
+        death_probability = self.parameters["omega"] * (1 - self.fitness)
+        if self.weight == 0:
+            return True
+        else:
+            return random.random() < death_probability
