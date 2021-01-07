@@ -7,10 +7,11 @@ import math
 import numpy as np
 import random
 
+
 class Animal:
     parameters = {}
 
-    def __init__(self, age=None, weight = None):
+    def __init__(self, age=None, weight=None):
         """
         # legg inn kommentar
         """
@@ -27,4 +28,13 @@ class Animal:
             raise ValueError('The weight must be non-negative')
         else:
             self.weight = weight
+
         self.fitness = self.get_fitness
+
+    @classmethod
+    def calculated_weight(cls):
+        """
+        Calculate birth weight of the animal from gaussian distribution
+        """
+
+        return random.gauss(cls.parameters['w_birth'], cls.parameters['sigma_birth'])
