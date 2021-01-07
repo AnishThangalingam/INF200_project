@@ -122,9 +122,13 @@ class Landscape():
 
     def Eaten_Herbivores(self):
         """
-        The food grows every year before the herbivores eat, the amount of food growing every year is
-        given
+        Remove the eaten Herbivores, so that the herbivores that has not eaten gets to
+        eat
         """
+
+
+
+
 
 """
 class Highland(Landscape):

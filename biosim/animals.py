@@ -138,7 +138,7 @@ class Animal:
 
 class Herbivore(Animal):
     """
-    Husk å legge inn kommentar her når alt er ferdig 
+    Husk å legge inn kommentar her når alt er ferdig, jeg heter anish
     """
 
     parameters = {
