@@ -148,6 +148,9 @@ class Animal:
         else:
             return random.random() < death_probability
 
+    def possible_for_moving(self):
+        """Chek the possible for an animal to move to an another cell or not"""
+        probability = self.parameters["mu"] * self.fitness
 
 class Herbivore(Animal):
     """
