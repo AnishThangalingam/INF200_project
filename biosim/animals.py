@@ -11,6 +11,19 @@ import random
 class Animal:
     parameters = {}
 
+    @classmethod
+    def parameter_set(cls, new_parameters):
+        """This function gives the ange to update the parameters"""
+        for param_name in new_parameters:
+            if param_name not in cls.parameters:
+                raise KeyError("Invalid parameter name")
+
+        for param_name in cls.parameters:
+            if param_name in new_parameters:
+                if new_parameters[param_name] < 0:
+                    raise ValueError("Parameter must be non-negative")
+                cls.parameters.update(new_parameters)
+
     def __init__(self, age=None, weight=None):
         """
         # legg inn kommentar
@@ -138,7 +151,7 @@ class Animal:
 
 class Herbivore(Animal):
     """
-    Husk å legge inn kommentar her når alt er ferdig 
+    Husk å legge inn kommentar her når alt er ferdig, jeg heter majorann
     """
 
     parameters = {
