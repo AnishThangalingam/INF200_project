@@ -8,9 +8,9 @@ The main class is Landscape and has four subclasses which is: Water, Highland, L
 
 """
 
-from biosim.animals import Animal
+from .animals import Herbivore, Carnivore
 
-class Landscape():
+class Landscape:
     """
     This is the main class and has four subclasses which is:
     Water, Highland, Lowland and Desert). This Landscape contains two types of animals, Herbivores and
@@ -28,9 +28,8 @@ class Landscape():
         """
         self.population_Herbivore = []
         self.population_Carnivore = []
-        self.born_in_cell_population_Herbivore = []
-        self.born_in_cell_population_Carnivore = []
         self.amount_of_food = 0
+
 
     def get_number_of_Herbivores(self):
         """
@@ -52,15 +51,30 @@ class Landscape():
         animals in the landscape age. The animals age one year every year that passes
         """
 
-        for animal in self.population_Herbivore + self.population_Carnivore: #SPØR SABINA
-            animal.grows_in_age()
+        for herbivore in self.population_Herbivore:
+            herbivore.grows_in_age()
+
+        for carnivore in self.population_Herbivore:
+            carnivore.grows_in_age()
+
+    def sort_animal_by_fitness(self):
+        """
+        Animal sorted by fitness
+        """
+        self.population_Herbivore.sort()
+        for herbivore in self.population_Herbivore:
+            herbivore.get_fitness()
+
+        self.population_Carnivore.sort(reverse=True)
+        for carnivore in self.population_Carnivore.sort:
+            carnivore.get_fitness()
 
     def animal_death(self):
         """
         Remove the dying animals for both Herbivores and Carnivores, so the animal which remains are
         the newborns and old ones.
         """
-        def living_animals(population)
+        def living_animals(population):
             return [animal for animal in population if not animal.dies()]
 
         self.population_Carnivore = living_animals(self.population_Carnivore)
@@ -72,8 +86,11 @@ class Landscape():
         This for loop makes all the animal lose weight every year
         """
 
-        for animal in self.population_Herbivore + self.population_Carnivore
-            animal.weight_lose()
+        for herbivore in self.population_Herbivore
+            herbivore.weight_lose()
+
+        for carnivore in self.population_Herbivore
+            carnivore.weight_lose()
 
     def Herbivore_annual_food(self):
         """
@@ -82,18 +99,38 @@ class Landscape():
 
         self.amount_of_food = self.parameters("f_max")
 
-    def Extend(self):
+    def New_Herbivore_babies(self):
         """
         Since there should be more than one of the same animal the population will be extended, so the newborns
         will be added to the new population
         """
 
-        Herbivores_present_count = self.get_number_of_Herbivores():
+        Herbivores_present_count = self.get_number_of_Herbivores()
+        if Herbivores_present_count < 2:
+            return False
+
         for animal in self.population_Herbivore[:Herbivores_present_count]:
-            Born_new_weight = animal.birth_and_weight(Herbivores_present_count)
-            if Born_new_weight is float:
+            new_born = animal.birth_and_weight(Herbivores_present_count)
+            if new_born is float:
                 self.population_Herbivore.append(
-                    Herbivore({"age": 0, "weight": Born_new_weight})
+                    Herbivore({"age": 0, "weight": new_born})
+                )
+
+    def New_Carnivore_babies(self):
+        """
+        Since there should be more than one of the same animal the population will be extended, so the newborns
+        will be added to the new population
+        """
+
+        Carnivores_present_count = self.get_number_of_Carnivores()
+        if Carnivores_present_count < 2:
+            return False
+
+        for animal in self.population_Carnivore[:Carnivores_present_count]:
+            new_born = animal.birth_and_weight(Carnivores_present_count)
+            if new_born is not None:
+                self.population_Carnivore.append(
+                    Carnivore({"age": 0, "weight": new_born})
                 )
 
     def Herbivore_available_food(self): #!!!!!!
@@ -103,7 +140,7 @@ class Landscape():
         food_amount_needed = Herbivore.parameters["F"]
         Current_food_amount = self.amount_of_food()
         if 0 < self.amount_of_food < food_amount_needed:
-            self.amount_of_food=0
+            self.amount_of_food = 0
             return Current_food_amount
         elif food_amount_needed >= self.amount_of_food:
             self.amount_of_food -= food_amount_needed
@@ -113,8 +150,8 @@ class Landscape():
 
     def Herbivore_eat(self):
         """
-        Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder, 
-        How much food is eaten and calculate how much food is left. 
+        Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder,
+        How much food is eaten and calculate how much food is left.
         """
 
         for Herbivore in self.population_Herbivore:
@@ -122,13 +159,61 @@ class Landscape():
 
     def Eaten_Herbivores(self):
         """
-        Remove the eaten Herbivores, so that the herbivores that has not eaten gets to
-        eat
+        Remove the eaten Herbivore from the herbivores thats going to eat, so the Herbivores, which remains
+        are those who have not eaten.
         """
 
+        def Not_eaten_herbivores(population)
+            return [animal for animal in population if not animal.eat()]
 
+        self.population_Herbivore = Not_eaten_herbivores(self.population_Herbivore)
 
+    def carnivores_available_food(self):
+        """
+        Amount of Carnivore food is given by how many Herbivores there are and how much they
+        weigh. This is because herbivores are the Carnivores food. So you add all the Herbivores
+        weight to the amount of food Carnivores have.
 
+        return: available food for the Carnivore to eat
+        """
+
+        food_amount_needed = Carnivore.parameters["F"]
+        amount_of_Carnivore_food = 0
+        for herbivore in self.population_Herbivore:
+            amount_of_Carnivore_food += herbivore.weight
+        return amount_of_Carnivore_food
+            if food_amount_needed <= amount_of_Carnivore_food:
+                amount_of_Carnivore_food -= food_amount_needed
+                return food_amount_needed
+            else:
+                return 0
+
+    def Carnivore_eat(self):
+        """
+        First sort the Herbivores and Carnivores, so Carnivores with best fitness eat Herbivores with
+        low fitness. Carnivore eat from available carnivore food so the eaten amount is taken from what
+        carnivore eat.
+        :return:
+        """
+
+        self.sort_animal_by_fitness(self.population_Carnivore)
+        for Carnivore in self.population_Carnivore:
+            Carnivore.eat(self.car())
+
+    def animal_migrate(self):
+        """
+        Legg til kommentar
+        """
+        Migrated_Herbivores = []
+        Migrated_Carnivores = []
+
+        for Herbivore in self.population_Herbivore:
+            if Herbivore.possible_for_moving() is True:
+                Migrated_Herbivores.append(Herbivore)
+
+        for Carnivore in self.population_Carnivore:
+            if Carnivore.possible_for_moving() is True:
+                Migrated_Carnivores.append(Carnivore)
 
 """
 class Highland(Landscape):
@@ -143,4 +228,5 @@ class Water(Landscape):
 class Desert(Landscape):
     parameters = {"f_max": 0}
 """
+
 
