@@ -45,18 +45,18 @@ class Landscape:
         self.amount_of_food = 0
 
     def population_set(self, population_list):
-    """
-    This function sets a population with the given input
-    """
-    for each_animal in population_list:
-        if each_animal['species'] == ['Carnivore']:
-            self.population_Carnivore.append(Carnivore(age = each_animal['age'],
-                                             weight = each_animal['weight']))
+        """
+        This function sets a population with the given input
+        """
+        for each_animal in population_list:
+            if each_animal['species'] == ['Carnivore']:
+                self.population_Carnivore.append(Carnivore(age = each_animal['age'],
+                                                 weight = each_animal['weight']))
 
-    for each_animal in population_list:
-        if each_animal['species'] == ['Herbivore']:
-            self.population_Herbivore.append(Herbivore(age = each_animal['age'],
-                                             weight = each_animal['weight']))
+        for each_animal in population_list:
+            if each_animal['species'] == ['Herbivore']:
+                self.population_Herbivore.append(Herbivore(age = each_animal['age'],
+                                                 weight = each_animal['weight']))
 
     def get_number_of_Herbivores(self):
         """
@@ -150,60 +150,17 @@ class Landscape:
         if type(self) == "Lowland":
             self.amount_of_food = self.parameters("f_max")
 
-    def Herbivore_available_food(self): #!!!!!!
-        """
-        Counts available food
-        """
-        food_amount_needed = Herbivore.parameters["F"]
-        Current_food_amount = self.amount_of_food()
-        if 0 < self.amount_of_food < food_amount_needed:
-            self.amount_of_food = 0
-            return Current_food_amount
-        elif food_amount_needed >= self.amount_of_food:
-            self.amount_of_food -= food_amount_needed
-            return food_amount_needed
-        else:
-            return 0
-
     def Herbivore_eat(self):
         """
         Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder,
         How much food is eaten and calculate how much food is left.
         """
 
+        if
+
         for Herbivore in self.population_Herbivore:
             Herbivore.eat(self.Herbivore_available_food())
 
-    def Eaten_Herbivores(self):
-        """
-        Remove the eaten Herbivore from the herbivores thats going to eat, so the Herbivores, which remains
-        are those who have not eaten.
-        """
-
-        def Not_eaten_herbivores(population)
-            return [animal for animal in population if not animal.eat()]
-
-        self.population_Herbivore = Not_eaten_herbivores(self.population_Herbivore)
-
-    def carnivores_available_food(self):
-        """
-        Amount of Carnivore food is given by how many Herbivores there are and how much they
-        weigh. This is because herbivores are the Carnivores food. So you add all the Herbivores
-        weight to the amount of food Carnivores have.
-
-        return: available food for the Carnivore to eat
-        """
-
-        food_amount_needed = Carnivore.parameters["F"]
-        amount_of_Carnivore_food = 0
-        for herbivore in self.population_Herbivore:
-            amount_of_Carnivore_food += herbivore.weight
-        return amount_of_Carnivore_food
-            if food_amount_needed <= amount_of_Carnivore_food:
-                amount_of_Carnivore_food -= food_amount_needed
-                return food_amount_needed
-            else:
-                return 0
 
     def Carnivore_eat(self):
         """
@@ -213,9 +170,11 @@ class Landscape:
         :return:
         """
 
-        self.sort_animal_by_fitness(self.population_Carnivore)
+        self.population_Herbivore.sort(key=operator.attrgetter('fitness'))
+        self.population_Carnivore.sort(key=operator.attrgetter('fitness'), reverse=True)
+
         for Carnivore in self.population_Carnivore:
-            Carnivore.eat(self.car())
+            self.population_Herbivore = Carnivore.eat(self.population_Herbivore)  ####Jeg må fjerne dyrene som er drept
 
     def animal_migrate(self):
         """
