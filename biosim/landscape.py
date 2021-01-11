@@ -9,6 +9,7 @@ The main class is Landscape and has four subclasses which is: Water, Highland, L
 """
 
 from .animals import Herbivore, Carnivore
+import operator
 
 class Landscape:
     """
@@ -18,6 +19,19 @@ class Landscape:
     """
 
     parameters = {}
+
+    @classmethod
+    """
+    Sets new parameter for the subclasses, because the subclasses
+    have different parameters.
+    """
+    def new_parameter_set(cls, new_parameter):
+
+        for param_name in new_parameter:
+            if param_name not in cls.parameters:
+                raise KeyError("Invalid parameter name")
+
+        cls.parameter.update(new_parameter)
 
     def __init__(self):
         """
@@ -30,6 +44,19 @@ class Landscape:
         self.population_Carnivore = []
         self.amount_of_food = 0
 
+    def population_set(self, population_list):
+    """
+    This function sets a population with the given input
+    """
+    for each_animal in population_list:
+        if each_animal['species'] == ['Carnivore']:
+            self.population_Carnivore.append(Carnivore(age = each_animal['age'],
+                                             weight = each_animal['weight']))
+
+    for each_animal in population_list:
+        if each_animal['species'] == ['Herbivore']:
+            self.population_Herbivore.append(Herbivore(age = each_animal['age'],
+                                             weight = each_animal['weight']))
 
     def get_number_of_Herbivores(self):
         """
@@ -57,18 +84,6 @@ class Landscape:
         for carnivore in self.population_Herbivore:
             carnivore.grows_in_age()
 
-    def sort_animal_by_fitness(self):
-        """
-        Animal sorted by fitness
-        """
-        self.population_Herbivore.sort()
-        for herbivore in self.population_Herbivore:
-            herbivore.get_fitness()
-
-        self.population_Carnivore.sort(reverse=True)
-        for carnivore in self.population_Carnivore.sort:
-            carnivore.get_fitness()
-
     def animal_death(self):
         """
         Remove the dying animals for both Herbivores and Carnivores, so the animal which remains are
@@ -92,13 +107,6 @@ class Landscape:
         for carnivore in self.population_Herbivore
             carnivore.weight_lose()
 
-    def Herbivore_annual_food(self):
-        """
-        Sets a fixed amount of food every year to a landscape
-        """
-
-        self.amount_of_food = self.parameters("f_max")
-
     def New_Herbivore_babies(self):
         """
         Since there should be more than one of the same animal the population will be extended, so the newborns
@@ -108,13 +116,12 @@ class Landscape:
         Herbivores_present_count = self.get_number_of_Herbivores()
         if Herbivores_present_count < 2:
             return False
-
-        for animal in self.population_Herbivore[:Herbivores_present_count]:
-            new_born = animal.birth_and_weight(Herbivores_present_count)
-            if new_born is float:
-                self.population_Herbivore.append(
-                    Herbivore({"age": 0, "weight": new_born})
-                )
+        else:
+            for animal in self.population_Herbivore:
+                new_born_weight = animal.birth_and_weight(Herbivores_present_count)
+                if new_born_weight is (float or int):
+                    self.population_Herbivore.append(
+                        Herbivore({'species': "Herbivore", "age": 0, "weight": new_born_weight}))
 
     def New_Carnivore_babies(self):
         """
@@ -125,13 +132,23 @@ class Landscape:
         Carnivores_present_count = self.get_number_of_Carnivores()
         if Carnivores_present_count < 2:
             return False
+        else:
+            for animal in self.population_Carnivore:
+                new_born_weight = animal.birth_and_weight(Carnivores_present_count)
+                if new_born_weight is (float or int):
+                    self.population_Carnivore.append(
+                        Carnivore({'species': "Carnivore","age": 0, "weight": new_born_weight}))
 
-        for animal in self.population_Carnivore[:Carnivores_present_count]:
-            new_born = animal.birth_and_weight(Carnivores_present_count)
-            if new_born is not None:
-                self.population_Carnivore.append(
-                    Carnivore({"age": 0, "weight": new_born})
-                )
+    def set_food_parameters(self):
+        """
+        Sets a fixed amount of food every year to lowland and Highland so the
+        Herbivores can eat at those landscapes.
+        """
+        if type(self) == "Highland":
+            self.amount_of_food = self.parameters("f_max")
+
+        if type(self) == "Lowland":
+            self.amount_of_food = self.parameters("f_max")
 
     def Herbivore_available_food(self): #!!!!!!
         """
