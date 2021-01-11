@@ -215,18 +215,28 @@ class Landscape:
             if Carnivore.possible_for_moving() is True:
                 Migrated_Carnivores.append(Carnivore)
 
-"""
+
 class Highland(Landscape):
     parameters = {"f_max": 300}
+
+    def __init__(self):
+        super().__init__()
 
 class Lowland(Landscape):
     parameters = {"f_max": 800}
 
+    def __init__(self):
+        super().__init__()
+
 class Water(Landscape):
-    parameters = {"f_max": 0}
+
+    def __init__(self):
+        super().__init__()
 
 class Desert(Landscape):
-    parameters = {"f_max": 0}
-"""
+
+    def __init__(self):
+        super().__init__()
+
 
 
