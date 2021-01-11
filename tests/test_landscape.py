@@ -3,24 +3,31 @@
 __author__ = 'Anish Thangalingam'
 __email__ = 'anish.thangalingam@nmbu.no'
 
-from biosim.landscape import *
+from biosim.landscape import Landscape
 
 def test_get_number_of_Herbivores():
     """
     Tests if it checks amount of Herbivores in the island
     """
-    population.Herbivores = 5
+    population = [{'species': 'Herbivores', 'age': 8, 'weight': 13},
+                  {'species': 'Herbivores', 'age': 4, 'weight': 11},
+                  {'species': 'Herbivores', 'age': 7, 'weight': 24}]
 
-    assert get_number_of_Herbivores(population.Herbivores) == population.Herbivores
+    population_Herbivores = 3
 
+    assert Landscape.get_number_of_Herbivores(population) == population_Herbivores
 
-def test_get_number_of_Herbivores():
+def test_get_number_of_Carnivores():
     """
     Tests if it checks amount of Herbivores in the island
     """
-    population.Carnivores = 5
+    population = [{'species': 'Carnivores', 'age': 8, 'weight': 13},
+                  {'species': 'Carnivores', 'age': 4, 'weight': 11},
+                  {'species': 'Carnivores', 'age': 7, 'weight': 24}]
 
-    assert get_number_of_Carnivores(population.Carnivores) == population.Carnivores
+    population_Carnivores = 3
+
+    assert Landscape.get_number_of_Carnivores(population) == population_Carnivores
 
 def test_animal_aging():
     """
