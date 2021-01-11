@@ -42,7 +42,7 @@ class Animal:
         else:
             self.weight = weight
 
-        self.fitness = self.get_fitness
+        self.fitness = self.get_fitness()
 
     @classmethod
     def calculated_weight(cls):
@@ -203,4 +203,35 @@ class Carnivore(Animal):
     }
 
     def __init__(self, age=None, weight=None):
+        """Husk å legge til kommentar"""
         super().__init__(age, weight)
+        self.kill_probability = None
+
+    def probability_to_kill(self, herbivore):
+        """Legg til kommentar"""
+        if self.fitness <= herbivore.fitness:
+            self.kill_probability = 0
+        elif 0 < self.fitness - herbivore.fitness < self.parameters["DeltaPhiMax"]:
+            self.kill_probability = (self.fitness - herbivore.fitness) / self.parameters["DeltaPhiMax"]
+        else:
+            self.kill_probability = 1
+
+        return random.random() < self.kill_probability
+
+    def carnivore_eat(self, herbivore_least_fit):
+        """Legg til kommentar"""
+        amount_of_food = 0
+        killed_herbivore = []
+
+        for herbivore in herbivore_least_fit:
+            if self.probability_to_kill(herbivore) is not True:
+                break
+
+            if self.probability_to_kill(herbivore) is True:
+                killed_herbivore.append(herbivore)
+                if herbivore.weight + amount_of_food < self.parameters["F"]:
+                    amount_of_food += herbivore.weight
+                    self.weight += herbivore.weight * self.parameters["beta"]
+                else:
+                    self.weight += (self.parameters["F"] - amount_of_food) * self.parameters["beta"]
+                    amount_of_food += self.parameters["F"] - amount_of_food
