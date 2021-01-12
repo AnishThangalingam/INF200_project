@@ -21,12 +21,11 @@ class Landscape:
     parameters = {}
 
     @classmethod
-    """
-    Sets new parameter for the subclasses, because the subclasses
-    have different parameters.
-    """
     def new_parameter_set(cls, new_parameter):
-
+        """
+        Sets new parameter for the subclasses, because the subclasses
+        have different parameters.
+        """
         for param_name in new_parameter:
             if param_name not in cls.parameters:
                 raise KeyError("Invalid parameter name")
@@ -44,7 +43,7 @@ class Landscape:
         self.population_Carnivore = []
         self.amount_of_food = 0
 
-    def population_set(self, population_list):
+    def set_a_population(self, population_list):
         """
         This function sets a population with the given input
         """
@@ -107,7 +106,7 @@ class Landscape:
         for carnivore in self.population_Herbivore
             carnivore.weight_lose()
 
-    def New_Herbivore_babies(self):
+    def new_herbivore_babies(self):
         """
         Since there should be more than one of the same animal the population will be extended, so the newborns
         will be added to the new population
@@ -123,7 +122,7 @@ class Landscape:
                     self.population_Herbivore.append(
                         Herbivore({'species': "Herbivore", "age": 0, "weight": new_born_weight}))
 
-    def New_Carnivore_babies(self):
+    def new_carnivore_babies(self):
         """
         Since there should be more than one of the same animal the population will be extended, so the newborns
         will be added to the new population
@@ -139,30 +138,32 @@ class Landscape:
                     self.population_Carnivore.append(
                         Carnivore({'species': "Carnivore","age": 0, "weight": new_born_weight}))
 
-    def set_food_parameters(self):
+    def set_food_parameters(self): ####
         """
         Sets a fixed amount of food every year to lowland and Highland so the
         Herbivores can eat at those landscapes.
         """
-        if type(self) == "Highland":
-            self.amount_of_food = self.parameters("f_max")
 
-        if type(self) == "Lowland":
-            self.amount_of_food = self.parameters("f_max")
+        self.amount_of_food = self.parameters["f_max"]
 
-    def Herbivore_eat(self):
+    def herbivore_eat(self): ########
         """
         Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder,
         How much food is eaten and calculate how much food is left.
         """
 
-        if
+        for herbivore in self.population_Herbivore:
+            if  self.amount_of_food >= herbivore.parameters["F"]:
+                herbivore.eat(herbivore.parameters["F"])
+                self.amount_of_food -= herbivore.parameters["F"]
+            else:
+                self.amount_of_food = 0
 
-        for Herbivore in self.population_Herbivore:
-            Herbivore.eat(self.Herbivore_available_food())
+
+        #### Husk at dyrene spiser selvom mengden er 5 og de spiser 10
 
 
-    def Carnivore_eat(self):
+    def carnivore_eat(self): #####
         """
         First sort the Herbivores and Carnivores, so Carnivores with best fitness eat Herbivores with
         low fitness. Carnivore eat from available carnivore food so the eaten amount is taken from what
@@ -173,23 +174,37 @@ class Landscape:
         self.population_Herbivore.sort(key=operator.attrgetter('fitness'))
         self.population_Carnivore.sort(key=operator.attrgetter('fitness'), reverse=True)
 
-        for Carnivore in self.population_Carnivore:
-            self.population_Herbivore = Carnivore.eat(self.population_Herbivore)  ####Jeg må fjerne dyrene som er drept
+        for carnivore in self.population_Carnivore:
+            carnivore.eat(self.population_Herbivore)
+
+    def killed_herbivore(self): ########
+        """
+        remove the killed herbivore from the carnivore eat
+        :return:
+        """
+        def not_killed_by_carnivore(population):
+            return [carnivore for carnivore in population if not carnivore.probability_to_kill() is True]
+
+        self.population_Herbivore = not_killed_by_carnivore(self.population_Herbivore)
 
     def animal_migrate(self):
         """
-        Legg til kommentar
+        Remove killed animals, so the herbivores which remains are the ones
+        that have not been killed or eaten.
         """
+
         Migrated_Herbivores = []
         Migrated_Carnivores = []
 
-        for Herbivore in self.population_Herbivore:
-            if Herbivore.possible_for_moving() is True:
-                Migrated_Herbivores.append(Herbivore)
+        for herbivore in self.population_Herbivore:
+            if herbivore.possible_for_moving() is True:
+                Migrated_Herbivores.append(herbivore)
 
-        for Carnivore in self.population_Carnivore:
-            if Carnivore.possible_for_moving() is True:
-                Migrated_Carnivores.append(Carnivore)
+        for carnivore in self.population_Carnivore:
+            if carnivore.possible_for_moving() is True:
+                Migrated_Carnivores.append(carnivore)
+
+##Går dette for hvert år
 
 
 class Highland(Landscape):
@@ -205,14 +220,14 @@ class Lowland(Landscape):
         super().__init__()
 
 class Water(Landscape):
-
+    parameters = {"f_max": 0}
+### Den kan ikke gå her, så må sette inn noe
     def __init__(self):
         super().__init__()
 
 class Desert(Landscape):
-
+    parameters = {"f_max": 0}
     def __init__(self):
         super().__init__()
 
-
-
+### Vis denne vann kan ikke gås på
