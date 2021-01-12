@@ -218,20 +218,4 @@ class Carnivore(Animal):
 
         return random.random() < self.kill_probability
 
-    def carnivore_eat(self, herbivore_least_fit):
-        """Legg til kommentar"""
-        amount_of_food = 0
-        killed_herbivore = []
 
-        for herbivore in herbivore_least_fit:
-            if self.probability_to_kill(herbivore) is not True:
-                break
-
-            if self.probability_to_kill(herbivore) is True:
-                killed_herbivore.append(herbivore)
-                if herbivore.weight + amount_of_food < self.parameters["F"]:
-                    amount_of_food += herbivore.weight
-                    self.weight += herbivore.weight * self.parameters["beta"]
-                else:
-                    self.weight += (self.parameters["F"] - amount_of_food) * self.parameters["beta"]
-                    amount_of_food += self.parameters["F"] - amount_of_food
