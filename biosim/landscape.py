@@ -8,7 +8,7 @@ The main class is Landscape and has four subclasses which is: Water, Highland, L
 
 """
 
-from .animals import Herbivore, Carnivore
+from biosim.animals import Herbivore, Carnivore
 import operator
 import random
 
@@ -49,14 +49,14 @@ class Landscape:
         This function sets a population with the given input
         """
         for each_animal in population_list:
-            if each_animal['species'] == ['Carnivore']:
-                self.population_Carnivore.append(Carnivore(age = each_animal['age'],
-                                                 weight = each_animal['weight']))
+            if each_animal["species"] == "Carnivore":
+                self.population_Carnivore.append(Carnivore(age=each_animal["age"],
+                                                 weight=each_animal["weight"]))
 
         for each_animal in population_list:
-            if each_animal['species'] == ['Herbivore']:
-                self.population_Herbivore.append(Herbivore(age = each_animal['age'],
-                                                 weight = each_animal['weight']))
+            if each_animal["species"] == "Herbivore":
+                self.population_Herbivore.append(Herbivore(age=each_animal["age"],
+                                                 weight=each_animal["weight"]))
 
     def get_number_of_Herbivores(self):
         """
