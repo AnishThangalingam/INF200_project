@@ -10,6 +10,7 @@ The main class is Landscape and has four subclasses which is: Water, Highland, L
 
 from .animals import Herbivore, Carnivore
 import operator
+import random
 
 class Landscape:
     """
@@ -100,10 +101,10 @@ class Landscape:
         This for loop makes all the animal lose weight every year
         """
 
-        for herbivore in self.population_Herbivore
+        for herbivore in self.population_Herbivore:
             herbivore.weight_lose()
 
-        for carnivore in self.population_Herbivore
+        for carnivore in self.population_Herbivore:
             carnivore.weight_lose()
 
     def new_herbivore_babies(self):
@@ -111,6 +112,7 @@ class Landscape:
         Since there should be more than one of the same animal the population will be extended, so the newborns
         will be added to the new population
         """
+        Newborn_herbivores = []
 
         Herbivores_present_count = self.get_number_of_Herbivores()
         if Herbivores_present_count < 2:
@@ -119,14 +121,17 @@ class Landscape:
             for animal in self.population_Herbivore:
                 new_born_weight = animal.birth_and_weight(Herbivores_present_count)
                 if new_born_weight is (float or int):
-                    self.population_Herbivore.append(
+                    Newborn_herbivores.append(
                         Herbivore({'species': "Herbivore", "age": 0, "weight": new_born_weight}))
+
+        return Newborn_herbivores.extend(self.population_Herbivore)
 
     def new_carnivore_babies(self):
         """
         Since there should be more than one of the same animal the population will be extended, so the newborns
         will be added to the new population
         """
+        Newborn_carnivores = []
 
         Carnivores_present_count = self.get_number_of_Carnivores()
         if Carnivores_present_count < 2:
@@ -135,8 +140,10 @@ class Landscape:
             for animal in self.population_Carnivore:
                 new_born_weight = animal.birth_and_weight(Carnivores_present_count)
                 if new_born_weight is (float or int):
-                    self.population_Carnivore.append(
+                    Newborn_carnivores.append(
                         Carnivore({'species': "Carnivore","age": 0, "weight": new_born_weight}))
+
+        return Newborn_carnivores.extend(self.population_Carnivore)
 
     def set_food_parameters(self): ####
         """
@@ -146,24 +153,21 @@ class Landscape:
 
         self.amount_of_food = self.parameters["f_max"]
 
-    def herbivore_eat(self): ########
+    def herbivore_eat(self):
         """
         Calculate the amount of food is left after the animal  and take the amount of food eaten from the fooder,
         How much food is eaten and calculate how much food is left.
         """
-
+        random.shuffle(self.population_Herbivore)
         for herbivore in self.population_Herbivore:
-            if  self.amount_of_food >= herbivore.parameters["F"]:
+            if self.amount_of_food >= herbivore.parameters["F"]:
                 herbivore.eat(herbivore.parameters["F"])
                 self.amount_of_food -= herbivore.parameters["F"]
             else:
+                herbivore.eat(self.amount_of_food)
                 self.amount_of_food = 0
 
-
-        #### Husk at dyrene spiser selvom mengden er 5 og de spiser 10
-
-
-    def carnivore_eat(self): #####
+    def carnivore_eat(self): ########
         """
         First sort the Herbivores and Carnivores, so Carnivores with best fitness eat Herbivores with
         low fitness. Carnivore eat from available carnivore food so the eaten amount is taken from what
@@ -175,6 +179,8 @@ class Landscape:
         self.population_Carnivore.sort(key=operator.attrgetter('fitness'), reverse=True)
 
         for carnivore in self.population_Carnivore:
+            carnivore.kill(self.population_Herbivore) # Implementere slik at herbivore listen blir oppdatert til neste carnivore
+            self.population_Herbivore = not_killed
             carnivore.eat(self.population_Herbivore)
 
     def killed_herbivore(self): ########
@@ -204,30 +210,35 @@ class Landscape:
             if carnivore.possible_for_moving() is True:
                 Migrated_Carnivores.append(carnivore)
 
-##Går dette for hvert år
-
 
 class Highland(Landscape):
     parameters = {"f_max": 300}
+    flag = True
 
     def __init__(self):
         super().__init__()
+
 
 class Lowland(Landscape):
     parameters = {"f_max": 800}
+    flag = True
 
     def __init__(self):
         super().__init__()
+
 
 class Water(Landscape):
     parameters = {"f_max": 0}
-### Den kan ikke gå her, så må sette inn noe
+    flag = False
+
     def __init__(self):
         super().__init__()
+
 
 class Desert(Landscape):
     parameters = {"f_max": 0}
+    flag = True
+
     def __init__(self):
         super().__init__()
 
-### Vis denne vann kan ikke gås på
