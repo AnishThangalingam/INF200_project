@@ -4,7 +4,6 @@ __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 import math
-import numpy as np
 import random
 
 
@@ -165,7 +164,7 @@ class Herbivore(Animal):
     def eat(self, amount_of_food):
         """
         Calculate the new weight when the animal takes a certain amount of food.
-        The new weight is calculated by beta*F, where F ar amount of fodder
+        The new weight is calculated by beta*F, where F are amount of fodder
         """
         self._weight += self.parameters["beta"] * amount_of_food
 
@@ -207,4 +206,26 @@ class Carnivore(Animal):
 
         return random.random() < self.kill_probability
 
+    def carnivore_eat(self, herbivore_least_fit):
+        amount_of_food = 0
+        update_herbivore = []
+        killed_herbivore = []
+        appetite = self.parameters["F"]
 
+        for herbivore in herbivore_least_fit:
+            if herbivore.fitness >= self.fitness:
+                break
+            if amount_of_food >= appetite:
+                break
+            if self.probability_to_kill(herbivore) is True:
+                killed_herbivore.append(herbivore)
+                if herbivore.weight + amount_of_food < appetite:
+                    amount_of_food += herbivore.weight
+                    self.weight += self.parameters["beta"] * herbivore.weight
+                else:
+                    self.weight += (self.parameters["F"] - amount_of_food) * self.parameters["beta"]
+                    amount_of_food += self.parameters["F"] - amount_of_food
+        for herb in herbivore_least_fit:
+            if herb not in killed_herbivore:
+                update_herbivore.append(herb)
+        return update_herbivore
