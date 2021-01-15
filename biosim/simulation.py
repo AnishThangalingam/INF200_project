@@ -3,11 +3,13 @@
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
+import random
+
 
 class BioSim:
     def __init__(self, island_map, ini_pop, seed,
-    ymax_animals=None, cmax_animals=None, hist_specs=None,
-    img_base=None, img_fmt='png'):
+                 ymax_animals=None, cmax_animals=None, hist_specs=None,
+                 img_base=None, img_fmt='png'):
 
         """
         :param island_map: Multi-line string specifying island geography
@@ -37,3 +39,30 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
+        
+        random.seed(seed)
+        self.island_map = island_map
+        self.ini_pop = ini_pop
+
+        if ymax_animals is None:
+            # Adjust y-max value
+            self.ymax_animals = 18000
+        else:
+            self.ymax_animals = ymax_animals
+
+        if cmax_animals is None:
+            self.cmax_animal = {"Herbivore": 200, "Carnivore": 100}
+        else:
+            self.cmax_animal = cmax_animals
+
+        if hist_specs is None:
+            self.hist_spec = {"weight": {"max": 60, "delta": 2},
+                              "fitness": {"max": 1.0, "delta": 0.05},
+                              "age": {"max": 60, "delta": 2}}
+        else:
+            self.hist_spec = hist_specs
+
+        if img_base is not None:
+            self.image_base = img_base
+
+        self.image_format = img_fmt
