@@ -69,7 +69,7 @@ class Animal:
         """
         Animals are growing up in age every year.
         """
-        self.age += 1
+        self._age += 1
 
     def weight_lose(self):
         """
@@ -78,18 +78,8 @@ class Animal:
         weight_to_reduce = self.weight * (1 - self.parameters['eta'])
         self.weight = weight_to_reduce
 
-        self.fitness = self.get_fitness()
-
-    def eat(self, amount_of_food):
-        """
-        Calculate the new weight when the animal takes a certain amount of food
-        The new wight is calculatet by beta*F, where F are amount of fodder.
-        """
-        self.weight += self.parameters['beta'] * amount_of_food
-
-        self.fitness = self.get_fitness()
-
-    def get_fitness(self):
+    @property
+    def fitness(self):
         """
         Find the fitness of the animals.
         If the with is is more than 0, the fitness will be calculated by this formula:
