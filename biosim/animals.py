@@ -22,27 +22,25 @@ class Animal:
             if param_name in new_parameters:
                 if new_parameters[param_name] < 0:
                     raise ValueError("Parameter must be non-negative")
-                cls.parameters.update(new_parameters)
+        cls.parameters.update(new_parameters)
 
     def __init__(self, age=None, weight=None):
         """
         # legg inn kommentar
         """
         if age is None:
-            self.age = 0
+            self._age = 0
         elif age < 0:
             raise ValueError('The age must be non-negative')
         else:
-            self.age = age
+            self._age = age
 
         if weight is None:
-            self.weight = self.calculated_weight()
+            self._weight = self.calculated_weight()
         elif weight < 0:
             raise ValueError('The weight must be non-negative')
         else:
-            self.weight = weight
-
-        self.fitness = self.get_fitness()
+            self._weight = weight
 
     @classmethod
     def calculated_weight(cls):
@@ -50,6 +48,14 @@ class Animal:
         Calculate birth weight of the animal from gaussian distribution
         """
         return random.gauss(cls.parameters['w_birth'], cls.parameters['sigma_birth'])
+
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, new_age):
+        self._age = new_age
 
     def grows_in_age(self):
         """
