@@ -3,6 +3,7 @@
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
+from biosim.animals import Herbivore, Carnivore
 import random
 
 
@@ -39,7 +40,7 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
-        
+
         random.seed(seed)
         self.island_map = island_map
         self.ini_pop = ini_pop
@@ -66,3 +67,17 @@ class BioSim:
             self.image_base = img_base
 
         self.image_format = img_fmt
+
+    @staticmethod
+    def set_animal_parameters(species, params):
+        """
+        Set parameters for animal species.
+        :param species: String, name of animal species
+        :param params: Dict with valid parameter specification for species
+        """
+        if species == "Herbivore":
+            Herbivore.parameter_set(params)
+        elif species == "Carnivore":
+            Carnivore.parameter_set(params)
+        else:
+            raise TypeError("Species can only be Herbivore or Carnivore")
