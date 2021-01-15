@@ -34,3 +34,106 @@ def test_get_number_of_Carnivores():
     Test = highland.get_number_of_Carnivores()
 
     assert Test == 3
+
+
+def test_animal_aging():
+    """
+    Tests if animal age
+    """
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 13}]
+
+    lowland = Lowland()
+    lowland.set_a_population(population)
+    age_before = lowland.population_Carnivore[0].age
+    lowland.animal_aging()
+    age_after = lowland.population_Carnivore[0].age
+
+    assert age_after == age_before + 1
+
+
+def test_animal_death():
+    """
+    Tests if the function removes dead animals
+    """
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 13},
+                  {'species': 'Carnivore', 'age': 4, 'weight': 11},
+                  {'species': 'Carnivore', 'age': 7, 'weight': 24}]
+
+    desert = Desert()
+    desert.set_a_population(population)
+    desert.population_Carnivore[1].weight = 0
+    pop_before = desert.population_Carnivore
+    desert.animal_death()
+    pop_after = desert.population_Carnivore
+
+    assert len(pop_before) - 1 == len(pop_after)
+
+
+def test_weight_loss():
+    """
+
+    :return:
+    """
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 13}]
+
+    highland = Highland()
+    highland.set_a_population(population)
+    weight_before = highland.population_Carnivore[0].weight
+    highland.animal_weight_loss()
+    weight_after = highland.population_Carnivore[0].weight
+
+    assert weight_before > weight_after
+
+
+"""
+def test_new_carnivore_babies():
+    
+
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 13},
+                  {'species': 'Carnivore', 'age': 4, 'weight': 11},
+                  {'species': 'Carnivore', 'age': 7, 'weight': 24}]
+
+    lowland = Lowland()
+    lowland.set_a_population(population)
+    without_new_babies = lowland.population_Carnivore
+    lowland.new_carnivore_babies()
+    with_new_babies = lowland.population_Carnivore
+
+    assert without_new_babies != with_new_babies
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

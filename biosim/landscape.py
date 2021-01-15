@@ -81,7 +81,7 @@ class Landscape:
         for herbivore in self.population_Herbivore:
             herbivore.grows_in_age()
 
-        for carnivore in self.population_Herbivore:
+        for carnivore in self.population_Carnivore:
             carnivore.grows_in_age()
 
     def animal_death(self):
@@ -90,7 +90,7 @@ class Landscape:
         the newborns and old ones.
         """
         def living_animals(population):
-            return [animal for animal in population if not animal.dies()]
+            return [animal for animal in population if not animal.death()]
 
         self.population_Carnivore = living_animals(self.population_Carnivore)
         self.population_Herbivore = living_animals(self.population_Herbivore)
@@ -104,7 +104,7 @@ class Landscape:
         for herbivore in self.population_Herbivore:
             herbivore.weight_lose()
 
-        for carnivore in self.population_Herbivore:
+        for carnivore in self.population_Carnivore:
             carnivore.weight_lose()
 
     def new_herbivore_babies(self):
@@ -167,7 +167,7 @@ class Landscape:
                 herbivore.eat(self.amount_of_food)
                 self.amount_of_food = 0
 
-    def carnivore_eat(self): ########
+    def carnivore_eat(self):
         """
         First sort the Herbivores and Carnivores, so Carnivores with best fitness eat Herbivores with
         low fitness. Carnivore eat from available carnivore food so the eaten amount is taken from what
