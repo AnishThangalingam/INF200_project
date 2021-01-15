@@ -57,6 +57,14 @@ class Animal:
     def age(self, new_age):
         self._age = new_age
 
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, new_weight):
+        self._weight = new_weight
+
     def grows_in_age(self):
         """
         Animals are growing up in age every year.
