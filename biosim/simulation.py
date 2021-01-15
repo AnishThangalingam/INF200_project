@@ -67,6 +67,7 @@ class BioSim:
             self.image_base = img_base
 
         self.image_format = img_fmt
+        self._present_year = 0
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -81,3 +82,8 @@ class BioSim:
             Carnivore.parameter_set(params)
         else:
             raise TypeError("Species can only be Herbivore or Carnivore")
+
+    @property
+    def year(self):
+        """Last year simulated."""
+        return self._present_year
