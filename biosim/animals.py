@@ -162,9 +162,16 @@ class Herbivore(Animal):
     def __init__(self, age=None, weight=None):
         super().__init__(age, weight)
 
+    def eat(self, amount_of_food):
+        """
+        Calculate the new weight when the animal takes a certain amount of food.
+        The new weight is calculated by beta*F, where F ar amount of fodder
+        """
+        self._weight += self.parameters["beta"] * amount_of_food
+
 
 class Carnivore(Animal):
-    """Carnivore class is a subclass to class Aninal. Legge til mere tekst"""
+    """Carnivore class is a subclass to class Animal. Legge til mere tekst"""
 
     parameters = {
         "w_birth": 6.0,
