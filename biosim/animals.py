@@ -98,44 +98,22 @@ class Animal:
         else:
             return q_plus * q_minus
 
-    def birth_prob(self, number_of_animal):
-        """
-        Finds the probability of giving birth
-        """
+    def baby(self, number_of_animal):
+        """ A function where it check each animals probability to give birth in a year """
+        probability = min(1, self.parameters["gamma"] * self.fitness * (number_of_animal - 1))
+        random_number_check = random.random()
 
-        test = self.parameters['zeta'] * (self.parameters['w_birth'] + self.parameters['sigma_birth'])
-        if number_of_animal >= 2 and self.weight >= test:
-            return min(1, self.parameters['gamma'] * self.fitness * (number_of_animal - 1))
-
+        if self.weight < self.parameters["zeta"] * (self.parameters["w_birth"] + self.parameters["sigma_birth"]):
+            return None
+        elif random_number_check < probability:
+            new_baby = type(self)()
+            if new_baby.weight * self.parameters["xi"] < self.weight:
+                self.weight -= self.parameters["xi"] * new_baby.weight
+                return new_baby
+            else:
+                return None
         else:
-            return 0
-
-    def birth_take_place(self, number_of_animal):
-        """
-        Return True if an animal give a birth by
-        checking the probability of a child being born with a random number
-        """
-        create_random_number = np.random.random()
-        birth_probability = self.birth_prob(number_of_animal)
-
-        if birth_probability >= create_random_number:
-            return True
-
-    def birth_and_weight(self, number_of_animal):
-        """
-        Checks if a child is born and finds the weight after birth.
-        Amount og weight the mother lose is is weight of the new born
-        baby times th xi parameter
-        """
-        weight_at_birth = self.calculated_weight()
-        # Or random.gauss(self.parameters["w_birth"], self.parameters["sigma_birth"])
-        checks_birth = self.birth_take_place(number_of_animal)
-        reduce_weight = weight_at_birth * self.parameters['xi']
-
-        if reduce_weight < self.weight and weight_at_birth > 0 and checks_birth is True:
-            self.weight -= reduce_weight
-            self.fitness = self.get_fitness()
-            return weight_at_birth
+            return None
 
     def death(self):
         """
