@@ -4,7 +4,6 @@ __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 import math
-import numpy as np
 import random
 
 
@@ -22,27 +21,25 @@ class Animal:
             if param_name in new_parameters:
                 if new_parameters[param_name] < 0:
                     raise ValueError("Parameter must be non-negative")
-                cls.parameters.update(new_parameters)
+        cls.parameters.update(new_parameters)
 
     def __init__(self, age=None, weight=None):
         """
         # legg inn kommentar
         """
         if age is None:
-            self.age = 0
+            self._age = 0
         elif age < 0:
             raise ValueError('The age must be non-negative')
         else:
-            self.age = age
+            self._age = age
 
         if weight is None:
-            self.weight = self.calculated_weight()
+            self._weight = self.calculated_weight()
         elif weight < 0:
             raise ValueError('The weight must be non-negative')
         else:
-            self.weight = weight
-
-        self.fitness = self.get_fitness()
+            self._weight = weight
 
     @classmethod
     def calculated_weight(cls):
@@ -51,11 +48,27 @@ class Animal:
         """
         return random.gauss(cls.parameters['w_birth'], cls.parameters['sigma_birth'])
 
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, new_age):
+        self._age = new_age
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, new_weight):
+        self._weight = new_weight
+
     def grows_in_age(self):
         """
         Animals are growing up in age every year.
         """
-        self.age += 1
+        self._age += 1
 
     def weight_lose(self):
         """
@@ -64,18 +77,8 @@ class Animal:
         weight_to_reduce = self.weight * (1 - self.parameters['eta'])
         self.weight = weight_to_reduce
 
-        self.fitness = self.get_fitness()
-
-    def eat(self, amount_of_food):
-        """
-        Calculate the new weight when the animal takes a certain amount of food
-        The new wight is calculatet by beta*F, where F are amount of fodder.
-        """
-        self.weight += self.parameters['beta'] * amount_of_food
-
-        self.fitness = self.get_fitness()
-
-    def get_fitness(self):
+    @property
+    def fitness(self):
         """
         Find the fitness of the animals.
         If the with is is more than 0, the fitness will be calculated by this formula:
@@ -94,44 +97,22 @@ class Animal:
         else:
             return q_plus * q_minus
 
-    def birth_prob(self, number_of_animal):
-        """
-        Finds the probability of giving birth
-        """
+    def baby(self, number_of_animal):
+        """ A function where it check each animals probability to give birth in a year """
+        probability = min(1, self.parameters["gamma"] * self.fitness * (number_of_animal - 1))
+        random_number_check = random.random()
 
-        test = self.parameters['zeta'] * (self.parameters['w_birth'] + self.parameters['sigma_birth'])
-        if number_of_animal >= 2 and self.weight >= test:
-            return min(1, self.parameters['gamma'] * self.fitness * (number_of_animal - 1))
-
+        if self.weight < self.parameters["zeta"] * (self.parameters["w_birth"] + self.parameters["sigma_birth"]):
+            return None
+        elif random_number_check < probability:
+            new_baby = type(self)()
+            if new_baby.weight * self.parameters["xi"] < self.weight:
+                self.weight -= self.parameters["xi"] * new_baby.weight
+                return new_baby
+            else:
+                return None
         else:
-            return 0
-
-    def birth_take_place(self, number_of_animal):
-        """
-        Return True if an animal give a birth by
-        checking the probability of a child being born with a random number
-        """
-        create_random_number = np.random.random()
-        birth_probability = self.birth_prob(number_of_animal)
-
-        if birth_probability >= create_random_number:
-            return True
-
-    def birth_and_weight(self, number_of_animal):
-        """
-        Checks if a child is born and finds the weight after birth.
-        Amount og weight the mother lose is is weight of the new born
-        baby times th xi parameter
-        """
-        weight_at_birth = self.calculated_weight()
-        # Or random.gauss(self.parameters["w_birth"], self.parameters["sigma_birth"])
-        checks_birth = self.birth_take_place(number_of_animal)
-        reduce_weight = weight_at_birth * self.parameters['xi']
-
-        if reduce_weight < self.weight and weight_at_birth > 0 and checks_birth is True:
-            self.weight -= reduce_weight
-            self.fitness = self.get_fitness()
-            return weight_at_birth
+            return None
 
     def death(self):
         """
@@ -180,9 +161,16 @@ class Herbivore(Animal):
     def __init__(self, age=None, weight=None):
         super().__init__(age, weight)
 
+    def eat(self, amount_of_food):
+        """
+        Calculate the new weight when the animal takes a certain amount of food.
+        The new weight is calculated by beta*F, where F are amount of fodder
+        """
+        self._weight += self.parameters["beta"] * amount_of_food
+
 
 class Carnivore(Animal):
-    """Carnivore class is a subclass to class Aninal. Legge til mere tekst"""
+    """Carnivore class is a subclass to class Animal. Legge til mere tekst"""
 
     parameters = {
         "w_birth": 6.0,
@@ -218,4 +206,26 @@ class Carnivore(Animal):
 
         return random.random() < self.kill_probability
 
+    def carnivore_eat(self, herbivore_least_fit):
+        amount_of_food = 0
+        update_herbivore = []
+        killed_herbivore = []
+        appetite = self.parameters["F"]
 
+        for herbivore in herbivore_least_fit:
+            if herbivore.fitness >= self.fitness:
+                break
+            if amount_of_food >= appetite:
+                break
+            if self.probability_to_kill(herbivore) is True:
+                killed_herbivore.append(herbivore)
+                if herbivore.weight + amount_of_food < appetite:
+                    amount_of_food += herbivore.weight
+                    self.weight += self.parameters["beta"] * herbivore.weight
+                else:
+                    self.weight += (self.parameters["F"] - amount_of_food) * self.parameters["beta"]
+                    amount_of_food += self.parameters["F"] - amount_of_food
+        for herb in herbivore_least_fit:
+            if herb not in killed_herbivore:
+                update_herbivore.append(herb)
+        return update_herbivore
