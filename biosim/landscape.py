@@ -179,19 +179,9 @@ class Landscape:
         self.population_Carnivore.sort(key=operator.attrgetter('fitness'), reverse=True)
 
         for carnivore in self.population_Carnivore:
-            carnivore.kill(self.population_Herbivore) # Implementere slik at herbivore listen blir oppdatert til neste carnivore
-            self.population_Herbivore = not_killed
-            carnivore.eat(self.population_Herbivore)
+            updated_herbivore_population = carnivore.carnivore_eat(self.population_Herbivore)
+            self.population_Herbivore = updated_herbivore_population
 
-    def killed_herbivore(self): ########
-        """
-        remove the killed herbivore from the carnivore eat
-        :return:
-        """
-        def not_killed_by_carnivore(population):
-            return [carnivore for carnivore in population if not carnivore.probability_to_kill() is True]
-
-        self.population_Herbivore = not_killed_by_carnivore(self.population_Herbivore)
 
     def animal_migrate(self):
         """
