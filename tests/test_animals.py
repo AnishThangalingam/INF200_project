@@ -177,3 +177,16 @@ def test_birth_probability(mocker):
     carnivore = Carnivore(2, 12)
     birth_carnivore = carnivore.baby(number_of_animal)
     assert birth_carnivore is None
+
+
+def test_death_if_weight_is_zero():
+    """
+    Test if the death function gives True when the weight of the animal is zero.
+    """
+    herbivore = Herbivore(2, 10)
+    herbivore.weight = 0
+    assert herbivore.death() is True
+
+    carnivore = Carnivore(20, 40)
+    carnivore.weight = 0
+    assert carnivore.death() is True
