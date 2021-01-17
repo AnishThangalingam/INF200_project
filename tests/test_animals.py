@@ -48,3 +48,19 @@ def test_raise_error_parameter_set():
 
     with pytest.raises(ValueError):
         Carnivore.parameter_set(new_parameter_with_negative_value)
+
+
+def test_grows_in_age():
+    """
+    Tests if the animal increases by one year the following year
+    """
+    herbivore = Herbivore(4, 20)
+    present_age_herbivore = herbivore.age
+    herbivore.grows_in_age()
+    assert present_age_herbivore + 1 == herbivore.age
+
+    carnivore = Carnivore(3, 30)
+    present_age_carnivore = carnivore.age
+    carnivore.grows_in_age()
+    assert present_age_carnivore + 1 == carnivore.age
+
