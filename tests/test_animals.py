@@ -146,3 +146,34 @@ def test_fitness_range():
     carnivore = Carnivore(4, 3)
     assert 0 <= carnivore.fitness
     assert 1 >= carnivore.fitness
+
+
+def test_birth_with_one_animal():
+    """
+    Testing if the baby function returns None if the number animal is 1 or less.
+    """
+    herbivore = Herbivore(2, 10)
+    number_of_animal = 1
+    birth_herbivore = herbivore.baby(number_of_animal)
+    assert birth_herbivore is None
+
+    carnivore = Carnivore(20, 40)
+    number_of_animal = 1
+    birth_carnivore = carnivore.baby(number_of_animal)
+    assert birth_carnivore is None
+
+
+def test_birth_probability(mocker):
+    """
+    Test if the baby function returns None when the probability to give
+    birth is less than the random value
+    """
+    mocker.patch("random.random", value=2)
+    herbivore = Herbivore(3, 14)
+    number_of_animal = 3
+    birth_herbivore = herbivore.baby(number_of_animal)
+    assert birth_herbivore is None
+
+    carnivore = Carnivore(2, 12)
+    birth_carnivore = carnivore.baby(number_of_animal)
+    assert birth_carnivore is None
