@@ -1,5 +1,17 @@
 # -*- encoding: utf-8 -*-
 
+"""
+This script contains a main class called animal and two subclasses called
+Herbivore and Carnivore. The main class contains characteristics that are common
+to the Herbivore and Carnivore.
+
+Purpose of this function is to give detailed information about the animal
+and their behaviors in the Island.
+
+To use this script the user has to have installed the math and random
+package to the Python environment.
+"""
+
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
