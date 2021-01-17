@@ -4,7 +4,12 @@ __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 from biosim.animals import Herbivore, Carnivore
+from biosim.landscape import Highland, Lowland
 import random
+import subprocess
+import
+
+_FFMPEG_BINARY = 'ffmpeg'
 
 
 class BioSim:
@@ -83,7 +88,51 @@ class BioSim:
         else:
             raise TypeError("Species can only be Herbivore or Carnivore")
 
+    @staticmethod
+    def set_landscape_parameters(landscape, params):
+        """
+        Set parameters for landscape type.
+        :param landscape: String, code letter for landscape
+        :param params: Dict with valid parameter specification for landscape
+        """
+        landscapes_changeable = {"H": Highland, "L": Lowland}
+        if landscape in landscapes_changeable:
+            landscapes_changeable[landscape].new_parameter_set(params)
+
     @property
     def year(self):
         """Last year simulated."""
         return self._present_year
+
+    def make_movie(self):
+        """
+        Create MPEG4 movie from visualization images saved.
+        The code below is inspired by a lecture hold by Hans Ekkehard Plesser.
+        """
+        format_of_the_movie = 'mp4'
+        if self.image_base is None:
+            raise RuntimeError('The filename is not defined')
+
+        try:
+            subprocess.check_call(
+                [
+                    _FFMPEG_BINARY,
+                    "-i",
+                    "{}_%05d.png".format(self.image_base),
+                    "-y",
+                    "-profile:v",
+                    "baseline",
+                    "-filter:v",
+                    "setpts=5*PTS",
+                    "-level",
+                    "3.0",
+                    "-pix_fmt",
+                    "yuv420p",
+                    "{}.{}".format(self.image_base, format_of_the_movie),
+                ]
+            )
+
+        except subprocess.CalledProcessError as err:
+            raise RuntimeError("ERROR: ffmpeg failed with: {}".format(err))
+
+
