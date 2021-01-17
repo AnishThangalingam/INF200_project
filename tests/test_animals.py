@@ -212,3 +212,15 @@ def test_death_if_weight_is_zero():
     carnivore = Carnivore(20, 40)
     carnivore.weight = 0
     assert carnivore.death() is True
+
+
+def test_weight_after_eating():
+    """
+    Test if the weight increase for herbivore when it eat a amount of food.
+
+    If the amount of food is 20, than the weight should increase with 20*0.9
+    """
+    herbivore = Herbivore(4, 15)
+    herbivore.eat(20)
+    assert herbivore.weight == 15 + 20*0.9
+
