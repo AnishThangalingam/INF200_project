@@ -5,6 +5,7 @@ __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 from biosim.animals import Herbivore, Carnivore
 from biosim.landscape import Highland, Lowland
+from biosim.visualization import Visualization
 import random
 import subprocess
 
@@ -73,6 +74,7 @@ class BioSim:
 
         self.image_format = img_fmt
         self._present_year = 0
+        self.visual = Visualization(self.cmax_animal, self.hist_spec)
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -98,6 +100,18 @@ class BioSim:
         landscapes_changeable = {"H": Highland, "L": Lowland}
         if landscape in landscapes_changeable:
             landscapes_changeable[landscape].new_parameter_set(params)
+
+    def simulate(self, num_years, vis_years=1, img_years=None):
+        """
+        Run simulation while visualizing the result.
+        :param num_years: number of years to simulate
+        :param vis_years: years between visualization updates
+        :param img_years: years between visualizations saved to files (default: vis_years)
+        Image files will be numbered consecutively.
+        """
+        self.visual.creat_a_window()
+
+
 
     @property
     def year(self):
