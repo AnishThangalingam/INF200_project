@@ -87,9 +87,9 @@ def test_weight_loss():
 def test_new_herbivore_babies(mocker):
     mocker.patch("random.random", return_value=0)
 
-    population = [{'species': 'Herbivore', 'age': 8, 'weight': 13},
-                  {'species': 'Herbivore', 'age': 4, 'weight': 11},
-                  {'species': 'Herbivore', 'age': 7, 'weight': 24}]
+    population = [{'species': 'Herbivore', 'age': 8, 'weight': 31.0},
+                  {'species': 'Herbivore', 'age': 4, 'weight': 29.0},
+                  {'species': 'Herbivore', 'age': 7, 'weight': 40.0}]
 
     lowland = Lowland()
     lowland.set_a_population(population)
