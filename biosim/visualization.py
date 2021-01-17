@@ -22,6 +22,7 @@ class Visualization:
         self._fig = None
         self._grids = None
         self._map = None
+        self._year_count = None
 
     def creat_a_window(self):
         """
@@ -59,3 +60,25 @@ class Visualization:
             ax_lg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1, edgecolor='none',
                                           facecolor=rgb_color_value[name[0]]))
             ax_lg.text(0.35, ix * 0.21, name, transform=ax_lg.transAxes)
+
+    def year_update(self, island_year):
+        """
+        Adding a subplot for year count and update the year count for each year
+        This code is inspired by a lecture hold by Hans Ekkehard Plesser in
+        January block 2021.
+
+        :params: island_year: present year at island
+        """
+        if self._year_count is None:
+            self._year_count = self._fig.add_subplot(self._grids[:1, 5:7])
+            template = "Year: {_5d}"
+            self._year_count = self._year_count.text(
+                0.5,
+                0.5,
+                template.format(0),
+                horizontalalignment="center",
+                verticalalignment="center",
+                transform=self._year_count.transAxes,
+            )
+        self._year_count.axis("off")
+        self._year_count.set_text(f"year: {island_year}")
