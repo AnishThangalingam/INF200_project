@@ -7,7 +7,7 @@ from biosim.animals import Herbivore, Carnivore
 from biosim.landscape import Highland, Lowland
 import random
 import subprocess
-import
+
 
 _FFMPEG_BINARY = 'ffmpeg'
 
@@ -103,6 +103,24 @@ class BioSim:
     def year(self):
         """Last year simulated."""
         return self._present_year
+
+    @property
+    def num_animals(self):
+        """Total number of animals on island."""
+        total_of_each_species_in_island = self.num_animals_per_species
+        total_population_in_island = (total_of_each_species_in_island["Carnivore"] +
+                                     total_of_each_species_in_island["Herbivore"])
+        return total_population_in_island
+
+    @property
+    def num_animals_per_species(self):
+        """Number of animals per species in island, as dictionary."""
+        count_of_per_species = {"Herbivore": 0, "Carnivore": 0}
+        for position in self.island.map:
+            if self.island.map[position].flag:
+                count_of_per_species["Carnivore"] += len(self.island.map[position].population_Carnivore)
+                count_of_per_species["Herbivore"] += len(self.island.map[position].population_Herbivore)
+        return count_of_per_species
 
     def make_movie(self):
         """
