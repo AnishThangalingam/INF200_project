@@ -214,6 +214,32 @@ def test_death_if_weight_is_zero():
     assert carnivore.death() is True
 
 
+def test_possible_for_moving_false(mocker):
+    """
+    Check the function possible_for_moving give False if
+    the random value is higher than the probability
+    """
+    mocker.patch("random.random", return_value=2)
+    herbivore = Herbivore(2, 10)
+    assert herbivore.possible_for_moving() is False
+
+    carnivore = Carnivore(4, 30)
+    assert carnivore.possible_for_moving() is False
+
+
+def test_possible_for_moving_true(mocker):
+    """
+    Check the function possible_for_moving give true if
+    the random value is lower than the probability
+    """
+    mocker.patch("random.random", return_value=0)
+    herbivore = Herbivore(2, 10)
+    assert herbivore.possible_for_moving() is True
+
+    carnivore = Carnivore(4, 30)
+    assert carnivore.possible_for_moving() is True
+
+
 def test_herbivore_weight_after_eating():
     """
     Test if the weight increase for herbivore when it eat a amount of food.
