@@ -117,14 +117,13 @@ class Landscape:
         Herbivores_present_count = self.get_number_of_Herbivores()
         if Herbivores_present_count < 2:
             return False
-        else:
-            for animal in self.population_Herbivore:
-                new_born_weight = animal.baby(Herbivores_present_count)
-                if new_born_weight is (float or int):
-                    Newborn_herbivores.append(
-                        Herbivore({'species': "Herbivore", "age": 0, "weight": new_born_weight}))
 
-        return Newborn_herbivores.extend(self.population_Herbivore)
+        if Herbivores_present_count >= 2:
+            for animal in self.population_Herbivore:
+                new_born_baby = animal.baby(Herbivores_present_count)
+                if new_born_baby is not None:
+                    Newborn_herbivores.append(new_born_baby)
+        self.population_Herbivore.extend(Newborn_herbivores)
 
     def new_carnivore_babies(self):
         """
@@ -136,12 +135,13 @@ class Landscape:
         Carnivores_present_count = self.get_number_of_Carnivores()
         if Carnivores_present_count < 2:
             return False
-        else:
+
+        if Carnivores_present_count >= 2:
             for animal in self.population_Carnivore:
                 new_born_baby = animal.baby(Carnivores_present_count)
-                if new_born_baby is (float or int):
+                if new_born_baby is not None:
                     Newborn_carnivores.append(new_born_baby)
-            self.population_Carnivore.extend(Newborn_carnivores)
+        self.population_Carnivore.extend(Newborn_carnivores)
 
     def set_food_parameters(self): ####
         """

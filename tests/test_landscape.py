@@ -84,11 +84,11 @@ def test_weight_loss():
 
     assert weight_before > weight_after
 
-def test_new_herbivore_babies():
+def test_new_herbivore_babies(mocker):
+    mocker.patch("random.random", return_value=0)
 
     population = [{'species': 'Herbivore', 'age': 8, 'weight': 13},
                   {'species': 'Herbivore', 'age': 4, 'weight': 11},
-                  {'species': 'Herbivore', 'age': 7, 'weight': 24},
                   {'species': 'Herbivore', 'age': 7, 'weight': 24}]
 
     lowland = Lowland()
@@ -97,18 +97,20 @@ def test_new_herbivore_babies():
 
     assert len(lowland.population_Herbivore) > len(population)
 
-def test_new_carnivore_babies():
+def test_new_carnivore_babies(mocker):
+    mocker.patch("random.random", return_value=0)
 
-    population = [{'species': 'Carnivore', 'age': 8, 'weight': 13},
-                  {'species': 'Carnivore', 'age': 4, 'weight': 11},
-                  {'species': 'Carnivore', 'age': 7, 'weight': 24},
-                  {'species': 'Carnivore', 'age': 7, 'weight': 24}]
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
+                  {'species': 'Carnivore', 'age': 4, 'weight': 39.0},
+                  {'species': 'Carnivore', 'age': 7, 'weight': 24.0}]
 
     lowland = Lowland()
     lowland.set_a_population(population)
     lowland.new_carnivore_babies()
 
-    assert len(lowland.population_Carnivore) == 2 * len(population)
+    assert len(lowland.population_Carnivore) > len(population)
+
+
 
 
 
