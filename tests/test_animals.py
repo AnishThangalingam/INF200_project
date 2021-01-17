@@ -77,7 +77,7 @@ def test_age_property():
     present_age_herbivore = herbivore.age
     assert present_age_herbivore == 20
 
-    
+
 def test_weight_property():
     """
     Test if the weight property function works as it should
@@ -89,3 +89,30 @@ def test_weight_property():
     herbivore = Herbivore(20, 33)
     present_weight_herbivore = herbivore.weight
     assert  present_weight_herbivore == 33
+
+
+def test_weight_lose():
+    """
+    Test that weight after weight loss is less than initial weight
+    """
+    herbivore = Herbivore(1, 10)
+    present_weight_herbivore = herbivore.weight
+    herbivore.weight_lose()
+    assert herbivore.weight < present_weight_herbivore
+
+    carnivore = Carnivore(2, 20)
+    present_weight_carnivore = carnivore.weight
+    carnivore.weight_lose()
+    assert carnivore.weight < present_weight_carnivore
+
+
+def test_weight_increases_of_eat():
+    """
+    Test that present weight is less than the weight after
+    eating
+    """
+    amount_of_food = 9
+    herbivore = Herbivore(3, 40)
+    present_weight_herbivore = herbivore.weight
+    herbivore.eat(amount_of_food)
+    assert present_weight_herbivore < herbivore.weight
