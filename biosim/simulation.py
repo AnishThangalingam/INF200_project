@@ -8,6 +8,7 @@ from biosim.landscape import Highland, Lowland
 from biosim.visualization import Visualization
 import random
 import subprocess
+import textwrap
 
 
 _FFMPEG_BINARY = 'ffmpeg'
@@ -110,6 +111,11 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         self.visual.creat_a_window()
+
+        string_island_map = textwrap.dedent(self.island_map)
+        string_island_map.replace("\n", " ")
+        self.visual.map_graphics(string_island_map)
+
 
 
 
