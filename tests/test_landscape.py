@@ -3,7 +3,7 @@
 __author__ = 'Anish Thangalingam'
 __email__ = 'anish.thangalingam@nmbu.no'
 
-from biosim.landscape import Landscape, Highland, Lowland, Water, Desert
+from biosim.landscape import landscape, Highland, Lowland, water, Desert
 
 
 def test_get_number_of_Herbivores():
@@ -85,42 +85,20 @@ def test_weight_loss():
     assert weight_before > weight_after
 
 
-"""
 def test_new_carnivore_babies():
-    
 
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 13},
                   {'species': 'Carnivore', 'age': 4, 'weight': 11},
+                  {'species': 'Carnivore', 'age': 7, 'weight': 24},
                   {'species': 'Carnivore', 'age': 7, 'weight': 24}]
 
     lowland = Lowland()
     lowland.set_a_population(population)
-    without_new_babies = lowland.population_Carnivore
     lowland.new_carnivore_babies()
-    with_new_babies = lowland.population_Carnivore
 
-    assert without_new_babies != with_new_babies
+    assert len(lowland.population_Carnivore) == 2 * len(population)
 
 """
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

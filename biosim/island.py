@@ -37,4 +37,4 @@ class Island:
         for y_coord, line in enumerate(self.line_island):
             for type, x_coord in enumerate(line):
                 self.map[(y_coord + 1, x_coord + 1)] = self.landscapes[type]()
-        return  self.map
+        return self.map

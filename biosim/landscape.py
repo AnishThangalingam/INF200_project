@@ -119,7 +119,7 @@ class Landscape:
             return False
         else:
             for animal in self.population_Herbivore:
-                new_born_weight = animal.birth_and_weight(Herbivores_present_count)
+                new_born_weight = animal.baby(Herbivores_present_count)
                 if new_born_weight is (float or int):
                     Newborn_herbivores.append(
                         Herbivore({'species': "Herbivore", "age": 0, "weight": new_born_weight}))
@@ -138,7 +138,7 @@ class Landscape:
             return False
         else:
             for animal in self.population_Carnivore:
-                new_born_weight = animal.birth_and_weight(Carnivores_present_count)
+                new_born_weight = animal.baby(Carnivores_present_count)
                 if new_born_weight is (float or int):
                     Newborn_carnivores.append(
                         Carnivore({'species': "Carnivore","age": 0, "weight": new_born_weight}))
