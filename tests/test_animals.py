@@ -148,6 +148,28 @@ def test_fitness_range():
     assert 1 >= carnivore.fitness
 
 
+def test_error_age_value():
+    """
+    Chek if Animal class raise value error when age value i negative
+    """
+    with pytest.raises(ValueError):
+        Herbivore(age=-3)
+
+    with pytest.raises(ValueError):
+        Carnivore(age=-10)
+
+
+def test_error_weight_value():
+    """
+    Chek if Animal class raise value error when weight value i negative
+    """
+    with pytest.raises(ValueError):
+        Herbivore(weight=-5)
+
+    with pytest.raises(ValueError):
+        Carnivore(weight=-11)
+
+
 def test_birth_with_one_animal():
     """
     Testing if the baby function returns None if the number animal is 1 or less.
