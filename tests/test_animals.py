@@ -116,3 +116,33 @@ def test_weight_increases_of_eat():
     present_weight_herbivore = herbivore.weight
     herbivore.eat(amount_of_food)
     assert present_weight_herbivore < herbivore.weight
+
+
+def test_fitness():
+    """
+    Testing the fitness function calculate as it should.
+
+    Test a herbivore where it is 10 year old with weight 30.
+    The fitness should return 0.88.
+    0.88 is calculated by hand
+
+    Testing a carnivore with 0 weight. It should return 0
+    """
+    herbivore = Herbivore(10, 30)
+    assert round(herbivore.fitness, 2) == 0.88
+
+    carnivore = Carnivore(10, 0)
+    assert round(carnivore.fitness, 2) == 0
+
+
+def test_fitness_range():
+    """
+    Tests the fitness range are between 0 and 1
+    """
+    herbivore = Herbivore(2, 20)
+    assert 0 <= herbivore.fitness
+    assert 1 >= herbivore.fitness
+
+    carnivore = Carnivore(4, 3)
+    assert 0 <= carnivore.fitness
+    assert 1 >= carnivore.fitness
