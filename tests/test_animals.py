@@ -223,4 +223,3 @@ def test_weight_after_eating():
     herbivore = Herbivore(4, 15)
     herbivore.eat(20)
     assert herbivore.weight == 15 + 20*0.9
-
