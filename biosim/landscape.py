@@ -138,12 +138,10 @@ class Landscape:
             return False
         else:
             for animal in self.population_Carnivore:
-                new_born_weight = animal.baby(Carnivores_present_count)
-                if new_born_weight is (float or int):
-                    Newborn_carnivores.append(
-                        Carnivore({'species': "Carnivore","age": 0, "weight": new_born_weight}))
-
-        return Newborn_carnivores.extend(self.population_Carnivore)
+                new_born_baby = animal.baby(Carnivores_present_count)
+                if new_born_baby is (float or int):
+                    Newborn_carnivores.append(new_born_baby)
+            self.population_Carnivore.extend(Newborn_carnivores)
 
     def set_food_parameters(self): ####
         """
