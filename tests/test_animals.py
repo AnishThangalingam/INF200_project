@@ -88,7 +88,7 @@ def test_weight_property():
 
     herbivore = Herbivore(20, 33)
     present_weight_herbivore = herbivore.weight
-    assert  present_weight_herbivore == 33
+    assert present_weight_herbivore == 33
 
 
 def test_weight_lose():
@@ -214,7 +214,7 @@ def test_death_if_weight_is_zero():
     assert carnivore.death() is True
 
 
-def test_weight_after_eating():
+def test_herbivore_weight_after_eating():
     """
     Test if the weight increase for herbivore when it eat a amount of food.
 
@@ -223,3 +223,17 @@ def test_weight_after_eating():
     herbivore = Herbivore(4, 15)
     herbivore.eat(20)
     assert herbivore.weight == 15 + 20*0.9
+
+
+def test_carnivore_weight_after_eating(mocker):
+    """
+    Test if the weight increase for carnivore when it eat a herbivore.
+
+    If the weight of the herbivore is 10, than the weight of carnivore
+    should increase with 10*0.75
+    """
+    mocker.patch("random.random", return_value=0.0)
+    herbivore_least_fit = [Herbivore(3, 10)]
+    carnivore = Carnivore(4, 14)
+    carnivore.carnivore_eat(herbivore_least_fit)
+    assert carnivore.weight == 14 + 10*0.75
