@@ -64,3 +64,28 @@ def test_grows_in_age():
     carnivore.grows_in_age()
     assert present_age_carnivore + 1 == carnivore.age
 
+
+def test_age_property():
+    """
+    Test if the age property function works as it should
+    """
+    carnivore = Carnivore(2, 1)
+    present_age_carnivore = carnivore.age
+    assert present_age_carnivore == 2
+
+    herbivore = Herbivore(20, 33)
+    present_age_herbivore = herbivore.age
+    assert present_age_herbivore == 20
+
+    
+def test_weight_property():
+    """
+    Test if the weight property function works as it should
+    """
+    carnivore = Carnivore(2, 1)
+    present_weight_carnivore = carnivore.weight
+    assert present_weight_carnivore == 1
+
+    herbivore = Herbivore(20, 33)
+    present_weight_herbivore = herbivore.weight
+    assert  present_weight_herbivore == 33
