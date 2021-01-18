@@ -220,7 +220,7 @@ class BioSim:
 
         return herbivore_age_dictionary, carnivore_age_dictionary
 
-    @property
+    @property 
     def hist_weight_data(self):
         """
         Function that takes in the data for weight.
