@@ -186,3 +186,20 @@ class Visualization:
         :params: island_year: present year at island
         """
         self._year_count.set_text(f"year: {island_year}")
+
+    def curves_update(self, year, herbivore_count, carnivore_count):
+        """
+        Updating the curves of amount of herbivores and carnivores each year
+        in the animal count plot
+
+        :params: year: present year
+        :params: herbivore_count: count of herbivore each year
+        :params: carnivore_count: count of carnivores each year
+        """
+        herbivore_y_data = self._herbivore_curve.get_ydata()
+        herbivore_y_data[year] = herbivore_count
+        self._herbivore_curve.set_ydata(herbivore_y_data)
+
+        carnivore_y_data = self._carnivore_curve.get_ydata()
+        carnivore_y_data[year] = carnivore_count
+        self._carnivore_curve.set_ydata(carnivore_y_data)
