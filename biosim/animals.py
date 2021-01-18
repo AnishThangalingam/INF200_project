@@ -1,5 +1,17 @@
 # -*- encoding: utf-8 -*-
 
+"""
+This script contains a main class called animal and two subclasses called
+Herbivore and Carnivore. The main class contains characteristics that are common
+to the Herbivore and Carnivore.
+
+Purpose of this function is to give detailed information about the animals
+and their behaviors in the Island.
+
+To use this script the user has to have installed the math and random
+package to the Python environment.
+"""
+
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
@@ -8,11 +20,19 @@ import random
 
 
 class Animal:
+    """
+    Animal class is the base class for this script
+    """
+
     parameters = {}
 
     @classmethod
     def parameter_set(cls, new_parameters):
-        """This function gives the ange to update the parameters"""
+        """
+        This function gives  the opportunity to update the parameters.
+
+        :params: new_parameters: A dictionary with new parameters
+        """
         for param_name in new_parameters:
             if param_name not in cls.parameters:
                 raise KeyError("Invalid parameter name")
@@ -25,7 +45,11 @@ class Animal:
 
     def __init__(self, age=None, weight=None):
         """
-        # legg inn kommentar
+        Initializing the animal class
+
+        :params: age: age of the new animal
+        :params: weight: weight of the new animal. If weight is None, it will be
+                         calculated by gaussian distribution.
         """
         if age is None:
             self._age = 0
@@ -45,23 +69,37 @@ class Animal:
     def calculated_weight(cls):
         """
         Calculate birth weight of the animal from gaussian distribution
+
+        :return: weight of the new animal
         """
         return random.gauss(cls.parameters['w_birth'], cls.parameters['sigma_birth'])
 
     @property
     def age(self):
+        """
+        sett age as property
+        """
         return self._age
 
     @age.setter
     def age(self, new_age):
+        """
+        New age setter
+        """
         self._age = new_age
 
     @property
     def weight(self):
+        """
+        Set weight as property
+        """
         return self._weight
 
     @weight.setter
     def weight(self, new_weight):
+        """
+        New weight setter
+        """
         self._weight = new_weight
 
     def grows_in_age(self):
@@ -80,10 +118,12 @@ class Animal:
     @property
     def fitness(self):
         """
-        Find the fitness of the animals.
-        If the with is is more than 0, the fitness will be calculated by this formula:
-        q^(+) * q^(-), where q^(+) = 1/(1+exp(phi age*(age-a_half))
-        and  q^(-) = 1/(1+exp(phi weight*(weight-w_half))
+        Find the fitness of the animals
+
+        If the weight is is more than 0, the fitness will be calculated by this formula:
+        q^(+) * q^(-), where
+        q^(+) = 1/(1+exp(phi age*(age-a_half)) and
+        q^(-) = 1/(1+exp(phi weight*(weight-w_half))
         """
         q_plus = 1 / (1 + math.exp(
             self.parameters["phi_age"] * (self.age - self.parameters["a_half"])
@@ -98,7 +138,14 @@ class Animal:
             return q_plus * q_minus
 
     def baby(self, number_of_animal):
-        """ A function where it check each animals probability to give birth in a year """
+        """
+        A function where it check each animals probability to give birth in a year.
+        The function has also the ability to update the weight.
+
+        :param: number_of_animal: the number of animal
+        :return: None if it is not birth
+                 New born if the birth occurs
+        """
         probability = min(1, self.parameters["gamma"] * self.fitness * (number_of_animal - 1))
         random_number_check = random.random()
 
@@ -120,7 +167,8 @@ class Animal:
         If the weight is greater than 0 than we have to compare
         the death probability against a random number and will return
         the result, either False or True
-        :return:
+
+        :return: True or False
         """
 
         death_probability = self.parameters["omega"] * (1 - self.fitness)
@@ -130,14 +178,18 @@ class Animal:
             return random.random() < death_probability
 
     def possible_for_moving(self):
-        """Chek the possible for an animal to move to an another cell or not"""
+        """
+        Chek the possible for an animal to move to an another cell or not
+
+        :return: True or False
+        """
         probability = self.parameters["mu"] * self.fitness
         return random.random() < probability
 
 
 class Herbivore(Animal):
     """
-    Husk å legge inn kommentar her når alt er ferdig, jeg heter majorann
+    Herbivore class is a subclass.
     """
 
     parameters = {
@@ -159,18 +211,27 @@ class Herbivore(Animal):
     }
 
     def __init__(self, age=None, weight=None):
+        """
+        Initializing the Herbivore class
+
+        :params: age: age of the new herbivore
+        :params: weight: weight of the new herbivore. If weight is None, it will be
+                         calculated by gaussian distribution.
+        """
         super().__init__(age, weight)
 
     def eat(self, amount_of_food):
         """
-        Calculate the new weight when the animal takes a certain amount of food.
+        Calculate the new weight when the herbivore takes a certain amount of food.
         The new weight is calculated by beta*F, where F are amount of fodder
+
+        :para: amount_of_food: amount of food eaten
         """
         self._weight += self.parameters["beta"] * amount_of_food
 
 
 class Carnivore(Animal):
-    """Carnivore class is a subclass to class Animal. Legge til mere tekst"""
+    """Carnivore class is a subclass to class Animal."""
 
     parameters = {
         "w_birth": 6.0,
@@ -191,12 +252,24 @@ class Carnivore(Animal):
     }
 
     def __init__(self, age=None, weight=None):
-        """Husk å legge til kommentar"""
+        """
+        Initializing the Carnivore class
+
+        :params: age: age of the new carnivore
+        :params: weight: weight of the new carnivore. If weight is None, it will be
+                         calculated by gaussian distribution.
+        """
         super().__init__(age, weight)
         self.kill_probability = None
 
     def probability_to_kill(self, herbivore):
-        """Legg til kommentar"""
+        """
+        Chek the possible for an carnivore to eat/kill a herbivore
+
+        :param: herbivore: a herbivore
+        :return: True or False
+                 True if herbivore is killed and False if not killed
+        """
         if self.fitness <= herbivore.fitness:
             self.kill_probability = 0
         elif 0 < self.fitness - herbivore.fitness < self.parameters["DeltaPhiMax"]:
@@ -207,8 +280,15 @@ class Carnivore(Animal):
         return random.random() < self.kill_probability
 
     def carnivore_eat(self, herbivore_least_fit):
+        """
+        Find out how many herbivores are killed by carnivores.
+        The function did also update the amount of food and the weight
+
+        :params: herbivore_least_fit: A list with herbivore sorted by fitness
+        :return: updated_herbivore: a list without killed herbivores
+        """
         amount_of_food = 0
-        update_herbivore = []
+        updated_herbivore = []
         killed_herbivore = []
         appetite = self.parameters["F"]
 
@@ -227,5 +307,5 @@ class Carnivore(Animal):
                     amount_of_food += self.parameters["F"] - amount_of_food
         for herb in herbivore_least_fit:
             if herb not in killed_herbivore:
-                update_herbivore.append(herb)
-        return update_herbivore
+                updated_herbivore.append(herb)
+        return updated_herbivore
