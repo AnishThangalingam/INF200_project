@@ -1,24 +1,9 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Anish Thangalingam'
-__email__ = 'anish.thangalingam@nmbu.no'
+__author__ = 'Anish Thangalingam, Majorann Thevarajah'
+__email__ = 'anish.thangalingam@nmbu.no, majorann.thevarajah@nmbu.no'
 
 from biosim.landscape import Highland, Lowland, Desert
-
-def test_new_parameter_set():
-    """
-
-    :return:
-    """
-
-
-
-def test_set_population():
-    """
-
-    :return:
-    """
-
 
 
 def test_get_number_of_Herbivores():
@@ -35,7 +20,6 @@ def test_get_number_of_Herbivores():
 
     assert Test == 3
 
-
 def test_get_number_of_Carnivores():
     """
     Tests if it checks amount of Herbivores in the island
@@ -50,7 +34,6 @@ def test_get_number_of_Carnivores():
 
     assert Test == 3
 
-
 def test_animal_aging():
     """
     Tests if animal age
@@ -64,7 +47,6 @@ def test_animal_aging():
     age_after = lowland.population_Carnivore[0].age
 
     assert age_after == age_before + 1
-
 
 def test_animal_death():
     """
@@ -83,7 +65,6 @@ def test_animal_death():
 
     assert len(pop_before) - 1 == len(pop_after)
 
-
 def test_weight_loss():
     """
 
@@ -98,7 +79,6 @@ def test_weight_loss():
     weight_after = highland.population_Carnivore[0].weight
 
     assert weight_before > weight_after
-
 
 def test_new_herbivore_babies(mocker):
     """
@@ -116,7 +96,6 @@ def test_new_herbivore_babies(mocker):
 
     assert len(lowland.population_Herbivore) > len(population)
 
-
 def test_new_carnivore_babies(mocker):
     """
     tests if the newborn carnivores are added to the carnivore population
@@ -132,8 +111,6 @@ def test_new_carnivore_babies(mocker):
     lowland.new_carnivore_babies()
 
     assert len(lowland.population_Carnivore) > len(population)
-
-def test_set_parameters():
 
 def test_herbivore_eat():
     """
@@ -159,7 +136,8 @@ def test_carnivore_eat():
                   {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
                   {'species': 'Carnivore', 'age': 7, 'weight': 24.0},
                   {'species': 'Herbivore', 'age': 8, 'weight': 31.0},
-                  {'species': 'Herbivore', 'age': 4, 'weight': 29.0}]
+                  {'species': 'Herbivore', 'age': 4, 'weight': 29.0},
+                  {'species': 'Herbivore', 'age': 6, 'weight': 25.0}]
 
     desert = Desert()
     desert.set_a_population(population)
@@ -167,8 +145,65 @@ def test_carnivore_eat():
     desert.carnivore_eat()
     weight_after = desert.population_Carnivore[0].weight
 
-    assert weight_before == weight_after
+    assert weight_before < weight_after
 
-def test_animal_migrate():
+def test_animal_migrate(mocker):
+    """
+    The mocker patch makes the chances more likely for a animal to migrate from one cell to another
 
+    :param mocker:
+    :return:
+    """
+    mocker.patch("random.random", return_value=0)
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
+                  {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
+                  {'species': 'Carnivore', 'age': 7, 'weight': 24.0},
+                  {'species': 'Herbivore', 'age': 8, 'weight': 31.0},
+                  {'species': 'Herbivore', 'age': 4, 'weight': 29.0},
+                  {'species': 'Herbivore', 'age': 6, 'weight': 25.0}]
 
+    highland = Highland()
+    highland.set_a_population(population)
+    herbivore = highland.animal_migrate()[0]
+    carnivore = highland.animal_migrate()[1]
+
+    assert herbivore != []
+    assert carnivore != []
+
+def test_new_parameter_set():
+    """
+
+    :return:
+    """
+    Test_parameter = {"f_max": 800}
+
+    highland = Highland()
+    highland.new_parameter_set(Test_parameter)
+
+    assert Test_parameter == highland.parameters
+
+def test_set_population():
+    """
+
+    :return:
+    """
+    population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
+                  {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
+                  {'species': 'Carnivore', 'age': 7, 'weight': 24.0},
+                  {'species': 'Herbivore', 'age': 8, 'weight': 31.0},
+                  {'species': 'Herbivore', 'age': 4, 'weight': 29.0},
+                  {'species': 'Herbivore', 'age': 6, 'weight': 25.0},
+                  {'species': 'Herbivore', 'age': 6, 'weight': 25.0}]
+
+    highland = Highland()
+    highland.set_a_population(population)
+
+    assert len(highland.population_Carnivore) == 3
+    assert len(highland.population_Herbivore) == 4
+
+def test_set_parameters():
+
+    lowland = Lowland()
+    lowland.set_food_parameters()
+
+    assert lowland.amount_of_food == 800

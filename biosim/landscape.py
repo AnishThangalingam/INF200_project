@@ -31,7 +31,7 @@ class Landscape:
             if param_name not in cls.parameters:
                 raise KeyError("Invalid parameter name")
 
-        cls.parameter.update(new_parameter)
+        cls.parameters.update(new_parameter)
 
     def __init__(self):
         """
@@ -180,11 +180,9 @@ class Landscape:
             updated_herbivore_population = carnivore.carnivore_eat(self.population_Herbivore)
             self.population_Herbivore = updated_herbivore_population
 
-
     def animal_migrate(self):
         """
-        Remove killed animals, so the herbivores which remains are the ones
-        that have not been killed or eaten.
+        animals migrate
         """
 
         Migrated_Herbivores = []
@@ -197,6 +195,9 @@ class Landscape:
         for carnivore in self.population_Carnivore:
             if carnivore.possible_for_moving() is True:
                 Migrated_Carnivores.append(carnivore)
+
+        return Migrated_Herbivores, Migrated_Carnivores
+
 
 
 class Highland(Landscape):
