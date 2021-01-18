@@ -4,11 +4,12 @@ __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Visualization:
     """
-    Visualization class for the Visualization of the simulation
+    Visualization class for the visualization of the simulation
     """
     def __init__(self, cmax, hist_spec):
         """
@@ -26,6 +27,9 @@ class Visualization:
         self._fitness_hist_fig = None
         self._age_hist_fig = None
         self._weight_hist_fig = None
+        self._animal_count = None
+        self._carnivore_curve = None
+        self._herbivore_curve = None
 
     def creat_a_window(self):
         """
@@ -80,6 +84,58 @@ class Visualization:
         if self._weight_hist_fig is None:
             self._weight_hist_fig = self._fig.add_subplot(self._grids[6:, 8:])
 
+    def subplot_for_the_animal_count_curves(self, x_limit, y_limit):
+        """
+        Subplot for the curves where it count the count of each animal every year
+        This code is inspired by a lecture hold by Hans Ekkehard Plesser in january block 2021
+
+        :params: x_limit: det maximum length of x axis
+        :parms: y_limit: the maximum length if y axis
+        """
+        # Subplot for animal:
+        if self._animal_count is None:
+            self._animal_count = self._fig.add_subplot(self._grids[:3, 7:])
+            # Set title and labels for the plor
+            self._animal_count.title.set_title("Number count for Herbivore and Carnivore")
+            self._animal_count.set_xlabel("Year")
+            self._animal_count.set_ylabel("Animal count")
+            # Set length of x and y axis
+            self._animal_count.set_xlim(0, x_limit)
+            self._animal_count.set_ylim(0, y_limit)
+        elif self._animal_count is not None:
+            self._animal_count.set_xlim(0, x_limit)
+
+        # Carnivore curve
+        if self._carnivore_curve is None:
+            plot_carnivore = self._animal_count.plot(np.arange(0, x_limit),
+                                                     np.full(x_limit, np.nan), label="Carnivore", color="red")
+            self._carnivore_curve = plot_carnivore[0]
+        elif self._carnivore_curve is not None:
+            x_data = self._carnivore_curve.get_data()[0]
+            y_data = self._carnivore_curve.get_data()[1]
+            x_new = np.arange(x_data[-1] + 1, x_limit)
+            if len(x_new) > 0:
+                y_new = np.full(x_new.shape, np.nan)
+                x_stack = np.hstack((x_data, x_new))
+                y_stack = np.hstack((y_data, y_new))
+                self._carnivore_curve.set_data(x_stack, y_stack)
+
+        # Herbivore curve
+        if self._herbivore_curve is None:
+            plot_herbivore = self._animal_count.plot(np.arange(0, x_limit),
+                                                     np.full(x_limit, np.nan), label="Herbivore", color="green")
+            self._herbivore_curve = plot_herbivore[0]
+            self._animal_count.legend(loc="upper left", prop={"size": 6})
+        elif self._carnivore_curve is not None:
+            x_data = self._herbivore_curve.get_data[0]
+            y_data = self._herbivore_curve.get_data[1]
+            x_new = np.arange(x_data[-1] + 1, x_limit)
+            if len(x_new) > 0:
+                y_new = np.full(x_new.shape, np.nan)
+                x_stack = np.hstack((x_data, x_new))
+                y_stack = np.hstack((y_data, y_new))
+                self._herbivore_curve.set_data((x_stack, y_stack))
+
     def map_graphics(self, map_of_island):
         """
         Plot the given island in a defined subplot
@@ -97,7 +153,7 @@ class Visualization:
                       for row in map_of_island.splitlines()]
 
         self._map.imshow(island_rgb)
-        ax_lg = self._fig.add_axes([0.39, 0.7, 0.85, 0,2])
+        ax_lg = self._fig.add_axes([0.39, 0.7, 0.85, 0.2])
         ax_lg.axis("off")
         for ix, name in enumerate(('Water', 'Desert', 'Highland', 'Lowland')):
             ax_lg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1, edgecolor='none',
@@ -111,5 +167,3 @@ class Visualization:
         :params: island_year: present year at island
         """
         self._year_count.set_text(f"year: {island_year}")
-
-
