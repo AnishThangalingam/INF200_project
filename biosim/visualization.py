@@ -35,6 +35,35 @@ class Visualization:
             self._fig = plt.figure(constrained_layout=True, figsize=(10, 8))
             self._grids = self._fig.add_girdspec(8, 12)
 
+    def subplot_for_map(self):
+        """
+        Creat subplot for island map in the visualization window
+        """
+        if self._map is None:
+            self._map = self._fig.add_subplot(self._grids[:3, :5])
+            self._map.title.set_text("Island")
+            self._map.axis("off")
+
+    def subplot_for_year(self):
+        """
+        Adding a subplot for year count
+        This code is inspired by a lecture hold by Hans Ekkehard Plesser in
+        January block 2021.
+        """
+
+        if self._year_count is None:
+            self._year_count = self._fig.add_subplot(self._grids[:1, 5:7])
+            template = "Year: {_5d}"
+            self._year_count = self._year_count.text(
+                0.5,
+                0.5,
+                template.format(0),
+                horizontalalignment="center",
+                verticalalignment="center",
+                transform=self._year_count.transAxes,
+            )
+        self._year_count.axis("off")
+
     def subplot_for_histogram(self):
         """
         Subplot for fitness, age and weight histogram
@@ -53,16 +82,11 @@ class Visualization:
 
     def map_graphics(self, map_of_island):
         """
-        Adding a subplot for map and plot the given island in than subplot
-        The code is inspired by a lecture hold by Hans Ekkehard Plesser in january block 2021
+        Plot the given island in a defined subplot
+        This code is inspired by a lecture hold by Hans Ekkehard Plesser in january block 2021
 
         :params: map_of_island: Multi-line string specifying island geography
         """
-        if self._map is None:
-            self._map = self._fig.add_subplot(self._grids[:3, :5])
-            self._map.title.set_text("Island")
-            self._map.axis("off")
-
         #                         R    G    B
         rgb_color_value = {'W': (0.0, 0.0, 1.0),
                            'D': (1.0, 1.0, 0.5),
@@ -82,24 +106,10 @@ class Visualization:
 
     def year_update(self, island_year):
         """
-        Adding a subplot for year count and update the year count for each year
-        This code is inspired by a lecture hold by Hans Ekkehard Plesser in
-        January block 2021.
+        Update the year count for each year
 
         :params: island_year: present year at island
         """
-        if self._year_count is None:
-            self._year_count = self._fig.add_subplot(self._grids[:1, 5:7])
-            template = "Year: {_5d}"
-            self._year_count = self._year_count.text(
-                0.5,
-                0.5,
-                template.format(0),
-                horizontalalignment="center",
-                verticalalignment="center",
-                transform=self._year_count.transAxes,
-            )
-        self._year_count.axis("off")
         self._year_count.set_text(f"year: {island_year}")
 
 
