@@ -30,6 +30,8 @@ class Visualization:
         self._animal_count = None
         self._carnivore_curve = None
         self._herbivore_curve = None
+        self._herbivore_heat = None
+        self._carnivore_heat = None
 
     def creat_a_window(self):
         """
@@ -135,6 +137,23 @@ class Visualization:
                 x_stack = np.hstack((x_data, x_new))
                 y_stack = np.hstack((y_data, y_new))
                 self._herbivore_curve.set_data((x_stack, y_stack))
+
+    def subplot_for_distribution_plot(self):
+        """
+        Create a subplot for the visualization of how the herbivores and
+        carnivores are distributed in heat map.
+        """
+        # Herbivore distribution
+        if self._herbivore_heat is None:
+            self._herbivore_heat = self._fig.add_subplot(self._grids[3:6, :6])
+            self._herbivore_heat.title.set_text("Distribution for herbivores")
+            self._herbivore_heat.axis("off")
+
+        # Carnivore distribution
+        if self._carnivore_heat is None:
+            self._carnivore_heat = self._fig.add_subplot(self._grids[3:6, :6])
+            self._carnivore_heat.title.set_text("Distribution for carnivores")
+            self._carnivore_heat.axis("off")
 
     def map_graphics(self, map_of_island):
         """

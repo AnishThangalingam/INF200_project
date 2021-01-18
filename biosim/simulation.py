@@ -111,19 +111,19 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         self.visual.creat_a_window()
+        num_years = num_years + self._present_year
+        self.visual.subplot_for_the_animal_count_curves(num_years+1, self.ymax_animals)
 
         self.visual.subplot_for_map()
         string_island_map = textwrap.dedent(self.island_map)
         string_island_map.replace("\n", " ")
         self.visual.map_graphics(string_island_map)
 
+        self.visual.subplot_for_distribution_plot()
+
         self.visual.subplot_for_year()
 
         self.visual.subplot_for_histogram()
-
-
-
-
 
     @property
     def year(self):
