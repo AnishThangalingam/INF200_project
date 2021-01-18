@@ -23,6 +23,9 @@ class Visualization:
         self._grids = None
         self._map = None
         self._year_count = None
+        self._fitness_hist_fig = None
+        self._age_hist_fig = None
+        self._weight_hist_fig = None
 
     def creat_a_window(self):
         """
@@ -31,6 +34,22 @@ class Visualization:
         if self._fig is None:
             self._fig = plt.figure(constrained_layout=True, figsize=(10, 8))
             self._grids = self._fig.add_girdspec(8, 12)
+
+    def subplot_for_histogram(self):
+        """
+        Subplot for fitness, age and weight histogram
+        """
+        # Subplot for fitness histogram:
+        if self._fitness_hist_fig is None:
+            self._fitness_hist_fig = self._fig.add_subplot(self._grids[6:, :4])
+
+        # Subplot for age histogram:
+        if self._age_hist_fig is None:
+            self._age_hist_fig = self._fig.add_subplot(self._grids[6:, 4:8])
+
+        # Subplot for weight histogram:
+        if self._weight_hist_fig is None:
+            self._weight_hist_fig = self._fig.add_subplot(self._grids[6:, 8:])
 
     def map_graphics(self, map_of_island):
         """
@@ -82,3 +101,5 @@ class Visualization:
             )
         self._year_count.axis("off")
         self._year_count.set_text(f"year: {island_year}")
+
+

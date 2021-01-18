@@ -116,6 +116,8 @@ class BioSim:
         string_island_map.replace("\n", " ")
         self.visual.map_graphics(string_island_map)
 
+        self.visual.subplot_for_histogram()
+
 
 
 
