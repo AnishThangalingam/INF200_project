@@ -123,7 +123,6 @@ class BioSim:
         num_years = num_years + self._present_year
         self.visual.subplot_for_the_animal_count_curves(num_years+1, self.ymax_animals)
 
-
         self.visual.subplot_for_map()
         string_island_map = textwrap.dedent(self.island_map)
         string_island_map.replace("\n", " ")
@@ -137,6 +136,22 @@ class BioSim:
         self.visual.carnivore_heat_map_update(distribution)
 
         self.visual.subplot_for_histogram()
+        self.visual.fitness_hist_update(self.hist_fitness_data[0], self.hist_fitness_data[1])
+        self.visual.age_hist_update(self.hist_age_data[0], self.hist_age_data[1])
+        self.visual.weight_hist_update(self.hist_weight_data[0], self.hist_weight_data[1])
+
+        while num_years > self._present_year:
+            self.island.island_season_cycle()
+            self._present_year += 1
+            if self.count % vis_years == 0:
+                self.visual.update_graphics_per_year(self.distributions, self.num_animals_per_species,
+                                                     self.year, self.hist_fitness_data[0],
+                                                     self.hist_fitness_data[1],
+                                                     self.hist_age_data[0], self.hist_age_data[1],
+                                                     self.hist_weight_data[0], self.hist_weight_data[1])
+            if self.count % img_years == 0:
+                self.save_fig()
+            self.count += 1
 
     def save_fig(self):
         """
@@ -154,7 +169,7 @@ class BioSim:
         :param population: List of dictionaries specifying population
         """
         self.island.population_in_cell(population)
-    
+
     @property
     def year(self):
         """Last year simulated."""
@@ -292,5 +307,3 @@ class BioSim:
 
         except subprocess.CalledProcessError as err:
             raise RuntimeError("ERROR: ffmpeg failed with: {}".format(err))
-
-
