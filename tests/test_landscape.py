@@ -5,7 +5,20 @@ __email__ = 'anish.thangalingam@nmbu.no'
 
 from biosim.landscape import Highland, Lowland, Desert
 
+def test_new_parameter_set():
+    """
+
+    :return:
+    """
+
+
+
 def test_set_population():
+    """
+
+    :return:
+    """
+
 
 
 def test_get_number_of_Herbivores():
