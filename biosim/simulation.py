@@ -148,6 +148,13 @@ class BioSim:
                                                      type=self.image_format))
         self.image_counter += 1
 
+    def add_population(self, population):
+        """
+        Add a population to the island
+        :param population: List of dictionaries specifying population
+        """
+        self.island.population_in_cell(population)
+    
     @property
     def year(self):
         """Last year simulated."""
