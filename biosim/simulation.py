@@ -112,11 +112,15 @@ class BioSim:
         """
         self.visual.creat_a_window()
 
+        self.visual.subplot_for_map()
         string_island_map = textwrap.dedent(self.island_map)
         string_island_map.replace("\n", " ")
         self.visual.map_graphics(string_island_map)
 
+        self.visual.subplot_for_year()
+
         self.visual.subplot_for_histogram()
+
 
 
 
