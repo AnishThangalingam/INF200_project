@@ -203,7 +203,7 @@ class BioSim:
             herbivore = len(cell.population_Herbivore)
             carnivore = len(cell.population_Carnivore)
             cell_data.append([row, col, herbivore, carnivore])
-        distribution = pd.DataFrame(data=cell_data, columns=['Row', 'Col', 'Herbivore'])
+        distribution = pd.DataFrame(data=cell_data, columns=['Row', 'Col', 'Herbivore', 'Carnivore'])
         return distribution
 
     @property
