@@ -32,6 +32,12 @@ class Visualization:
         self._herbivore_curve = None
         self._herbivore_heat = None
         self._carnivore_heat = None
+        self._carnivore_dist = None
+        self._herbivore_dist = None
+        self._fitness_histogram = None
+        self._age_histogram = None
+        self._weight_histogram = None
+        self._year_text = None
 
     def creat_a_window(self):
         """
@@ -39,7 +45,7 @@ class Visualization:
         """
         if self._fig is None:
             self._fig = plt.figure(constrained_layout=True, figsize=(10, 8))
-            self._grids = self._fig.add_girdspec(8, 12)
+            self._grids = self._fig.add_gridspec(8, 12)
 
     def subplot_for_map(self):
         """
@@ -48,7 +54,7 @@ class Visualization:
         if self._map is None:
             self._map = self._fig.add_subplot(self._grids[:3, :5])
             self._map.title.set_text("Island")
-            self._map.axis("off")
+            self._map. axis("off")
 
     def subplot_for_year(self):
         """
@@ -59,8 +65,8 @@ class Visualization:
 
         if self._year_count is None:
             self._year_count = self._fig.add_subplot(self._grids[:1, 5:7])
-            template = "Year: {_5d}"
-            self._year_count = self._year_count.text(
+            template = "Year: {:5d}"
+            self._year_text = self._year_count.text(
                 0.5,
                 0.5,
                 template.format(0),
@@ -98,7 +104,7 @@ class Visualization:
         if self._animal_count is None:
             self._animal_count = self._fig.add_subplot(self._grids[:3, 7:])
             # Set title and labels for the plor
-            self._animal_count.title.set_title("Number count for Herbivore and Carnivore")
+            self._animal_count.title.set_text("Number count for Herbivore and Carnivore")
             self._animal_count.set_xlabel("Year")
             self._animal_count.set_ylabel("Animal count")
             # Set length of x and y axis
@@ -129,8 +135,8 @@ class Visualization:
             self._herbivore_curve = plot_herbivore[0]
             self._animal_count.legend(loc="upper left", prop={"size": 6})
         elif self._carnivore_curve is not None:
-            x_data = self._herbivore_curve.get_data[0]
-            y_data = self._herbivore_curve.get_data[1]
+            x_data = self._herbivore_curve.get_data()[0]
+            y_data = self._herbivore_curve.get_data()[1]
             x_new = np.arange(x_data[-1] + 1, x_limit)
             if len(x_new) > 0:
                 y_new = np.full(x_new.shape, np.nan)
@@ -151,7 +157,7 @@ class Visualization:
 
         # Carnivore distribution
         if self._carnivore_heat is None:
-            self._carnivore_heat = self._fig.add_subplot(self._grids[3:6, :6])
+            self._carnivore_heat = self._fig.add_subplot(self._grids[3:6, 6:])
             self._carnivore_heat.title.set_text("Distribution for carnivores")
             self._carnivore_heat.axis("off")
 
@@ -172,7 +178,7 @@ class Visualization:
                       for row in map_of_island.splitlines()]
 
         self._map.imshow(island_rgb)
-        ax_lg = self._fig.add_axes([0.39, 0.7, 0.85, 0.2])
+        ax_lg = self._fig.add_axes([0.39, 0.7, 0.05, 0.2])
         ax_lg.axis("off")
         for ix, name in enumerate(('Water', 'Desert', 'Highland', 'Lowland')):
             ax_lg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1, edgecolor='none',
@@ -185,7 +191,7 @@ class Visualization:
 
         :params: island_year: present year at island
         """
-        self._year_count.set_text(f"year: {island_year}")
+        self._year_text.set_text(f"year: {island_year}")
 
     def curves_update(self, year, herbivore_count, carnivore_count):
         """
@@ -203,3 +209,41 @@ class Visualization:
         carnivore_y_data = self._carnivore_curve.get_ydata()
         carnivore_y_data[year] = carnivore_count
         self._carnivore_curve.set_ydata(carnivore_y_data)
+
+    def herbivore_heat_map_update(self, distribution):
+        """
+        Updating the heatmap for herbivores each year. It contains how many
+        herbivores that is present in each cell.
+
+        This code is inspired by a lecture hold by Hans Ekkehard Plesser in january block 2021
+
+        :params: distribution: Information about herbivores in each cell.
+                               distribution is a dataframe
+        """
+        if self._herbivore_dist is not None:
+            self._herbivore_dist.set_data(distribution.pivot("Row", "Col", "Herbivore"))
+        else:
+            self._herbivore_dist = self._herbivore_heat.imshow(distribution.pivot("Row", "Col", "Herbivore"),
+                                                              interpolation="nearest", vmin=0,
+                                                              vmax=self.cmax["Herbivore"])
+            self._herbivore_heat.figure.colorbar(self._herbivore_dist, ax=self._herbivore_heat,
+                                                 orientation="vertical")
+
+    def carnivore_heat_map_update(self, distribution):
+        """
+        Updating the heatmap for carnivores each year. It contains how many
+        carnivores that is present in each cell.
+
+        This code is inspired by a lecture hold by Hans Ekkehard Plesser in january block 2021
+
+        :params: distribution: Information about carnivores in each cell.
+                               distribution is a dataframe
+        """
+        if self._carnivore_dist is not None:
+            self._carnivore_dist.set_data(distribution.pivot("Row", "Col", "Carnivore"))
+        else:
+            self._carnivore_dist = self._carnivore_heat.imshow(distribution.pivot("Row", "Col", "Carnivore"),
+                                                               interpolation="nearest", vmin=0,
+                                                               vmax=self.cmax["Carnivore"])
+            self._carnivore_heat.figure.colorbar(self._carnivore_dist, ax=self._carnivore_heat,
+                                                 orientation="vertical")
