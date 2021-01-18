@@ -9,6 +9,7 @@ from biosim.island import Island
 from biosim.visualization import Visualization
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
 import subprocess
 import textwrap
@@ -137,6 +138,16 @@ class BioSim:
 
         self.visual.subplot_for_histogram()
 
+    def save_fig(self):
+        """
+        Saving the Visualizations plot
+        """
+        if self.image_base is None:
+            return
+        plt.savefig('{base}_{num:05d}.{type}'.format(base=self.image_base, num=self.image_counter,
+                                                     type=self.image_format))
+        self.image_counter += 1
+
     @property
     def year(self):
         """Last year simulated."""
@@ -220,7 +231,7 @@ class BioSim:
 
         return herbivore_age_dictionary, carnivore_age_dictionary
 
-    @property 
+    @property
     def hist_weight_data(self):
         """
         Function that takes in the data for weight.
