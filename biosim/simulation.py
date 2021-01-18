@@ -5,8 +5,10 @@ __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 from biosim.animals import Herbivore, Carnivore
 from biosim.landscape import Highland, Lowland
+from biosim.island import Island
 from biosim.visualization import Visualization
 import random
+import pandas as pd
 import subprocess
 import textwrap
 
@@ -51,6 +53,7 @@ class BioSim:
         random.seed(seed)
         self.island_map = island_map
         self.ini_pop = ini_pop
+        self.Island = Island(self.island_map, self.ini_pop)
 
         if ymax_animals is None:
             # Adjust y-max value
@@ -72,10 +75,14 @@ class BioSim:
 
         if img_base is not None:
             self.image_base = img_base
+        else:
+            self.image_base = None
 
         self.image_format = img_fmt
         self._present_year = 0
         self.visual = Visualization(self.cmax_animal, self.hist_spec)
+        self.image_counter = 0
+        self.count = 0
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -119,9 +126,12 @@ class BioSim:
         string_island_map.replace("\n", " ")
         self.visual.map_graphics(string_island_map)
 
-        self.visual.subplot_for_distribution_plot()
-
         self.visual.subplot_for_year()
+
+        self.visual.subplot_for_distribution_plot()
+        distribution = self.distrubutions
+        self.visual.herbivore_heat_map_update(distribution)
+        self.visual.carnivore_heat_map_update(distribution)
 
         self.visual.subplot_for_histogram()
 
@@ -135,7 +145,7 @@ class BioSim:
         """Total number of animals on island."""
         total_of_each_species_in_island = self.num_animals_per_species
         total_population_in_island = (total_of_each_species_in_island["Carnivore"] +
-                                     total_of_each_species_in_island["Herbivore"])
+                                      total_of_each_species_in_island["Herbivore"])
         return total_population_in_island
 
     @property
@@ -147,6 +157,19 @@ class BioSim:
                 count_of_per_species["Carnivore"] += len(self.island.map[position].population_Carnivore)
                 count_of_per_species["Herbivore"] += len(self.island.map[position].population_Herbivore)
         return count_of_per_species
+
+    @property
+    def distributions(self):
+
+        cell_data = []
+        for coordinate, cell in self.island.map.items():
+            row = coordinate[0]
+            col = coordinate[1]
+            herbivore = len(cell.population_Herbivore)
+            carnivore = len(cell.population_Carnivore)
+            cell_data.append([row, col, herbivore, carnivore])
+        distribution = pd.DataFrame(data=cell_data, columns=['Row', 'Col', 'Herbivore'])
+        return distribution
 
     def make_movie(self):
         """
