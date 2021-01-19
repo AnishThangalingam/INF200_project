@@ -49,7 +49,7 @@ def test_check_map_lines():
 
 def test_move_to_cell(mocker):
     """
-    Tests if the function gives us a random choice of the four neighbouring cells the animal ca move
+    Tests if the function gives us a random choice of the four neighbouring cells, the animal can move
     to.
     """
     mocker.patch("numpy.random.choice", return_value=2)
@@ -92,7 +92,7 @@ def test_population_in_cell():
 
 def test_migration(mocker):
     """
-    Test if animals migrate to suitable landscapes, If the population before is not the same as the population after,
+    Test if animals migrate to suitable landscapes, if the population before is not the same as the population after,
     it means that the function works and that the animals migrate to a suitable landscape
     """
     mocker.patch("numpy.random.choice", return_value=2)
@@ -118,4 +118,32 @@ def test_migration(mocker):
 
     assert population_before != population_after
 
-# def test_island_season_cycle():
+
+def test_island_season_cycle():
+    """
+    Tests if the function gives us the population after a annual cycle in the cell, so if the current population is
+    not the same as next years population. Then the function work and the season cycle affected the animals in the
+    cell.
+
+    """
+    test_map = """\
+                    WWWWWW
+                    WHHHHW
+                    WHHHHW
+                    WDDDDW
+                    WWWWWW"""
+
+    population = [{'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 20}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 8, 'weight': 31.0}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 4, 'weight': 29.0}]}]
+
+    island = Island(island_map=test_map, initial_population=[])
+    island.population_in_cell(population)
+    population_current_year = island.map[(3, 3)].population_Carnivore
+    island.island_season_cycle()
+    population_next_year = island.map[(3, 3)].population_Carnivore
+
+    assert population_current_year == population_next_year
