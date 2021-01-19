@@ -134,19 +134,19 @@ class Island:
 
             for herbivore in migrating_herbivore:
                 new_loc = self.move_to_cell(loc_pos)
-                if not self.map[new_loc].flag:
-                    break
-                else:
+                if self.map[new_loc].flag:
                     self.map[new_loc].population_Herbivore.append(herbivore)
                     self.map[loc_pos].population_Herbivore.remove(herbivore)
+                else:
+                    continue
 
             for carnivore in migrating_carnivore:
                 new_loc = self.move_to_cell(loc_pos)
-                if not self.map[new_loc].flag:
-                    break
-                else:
+                if self.map[new_loc].flag:
                     self.map[new_loc].population_Carnivore.append(carnivore)
                     self.map[loc_pos].population_Carnivore.remove(carnivore)
+                else:
+                    continue
 
     def island_season_cycle(self):
         """
