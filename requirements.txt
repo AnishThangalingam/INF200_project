@@ -1,0 +1,9 @@
+numpy
+matplotlib
+math
+textwrap
+pytest
+operator
+subprocess
+pandas
+os
