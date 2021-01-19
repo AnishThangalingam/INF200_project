@@ -43,6 +43,9 @@ class Island:
         self.map_creating()
         self.population_in_cell(self.ini_pop)
 
+
+
+
     def check_boundary_and_invalid_landscape(self):
         """
         This function checks if the island is surrounded by water. if it is not this function raises a valueerror,
@@ -86,9 +89,9 @@ class Island:
         neighbour_cells_loc = [(y_coord + 1, x_coord), (y_coord - 1, x_coord),
                                (y_coord, x_coord + 1), (y_coord, x_coord - 1)]
 
-        random_cell_from_list = random.choice(neighbour_cells_loc)
-
-        return random_cell_from_list
+        random_cell_from_list = random.choice(len(neighbour_cells_loc))
+        cell = neighbour_cells_loc[random_cell_from_list]
+        return cell
 
     def population_in_cell(self, population):
         """
@@ -150,7 +153,7 @@ class Island:
 
     def island_season_cycle(self):
         """
-        This function gives us the cycle for a year. This is functions work annually and works for all the cells in
+        This function gives us the cycle for a year. These functions work annually and works for all the cells in
         the island.
         """
 
@@ -164,4 +167,3 @@ class Island:
             self.map[loc_pos].animal_weight_loss()
             self.map[loc_pos].animal_aging()
             self.map[loc_pos].animal_death()
-
