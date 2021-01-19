@@ -9,7 +9,7 @@ import pytest
 
 def test_check_boundary():
     """
-    tests if the function checks the boundaries and raises valueerror
+    Tests if the function checks the boundaries and raises valueerror
     """
 
     test_map = """\
@@ -90,19 +90,32 @@ def test_population_in_cell():
     assert len(island.map[(3, 3)].population_Carnivore) == 3
 
 
-def test_map_creating():
+def test_migration(mocker):
     """
-    Tests if the function creates a map
+    Test if animals migrate to suitable landscapes, If the population before is not the same as the population after,
+    it means that the function works and that the animals migrate to a suitable landscape
     """
+    mocker.patch("numpy.random.choice", return_value=2)
+    test_map = """\
+                    WWWWWW
+                    WHHHHW
+                    WHHHHW
+                    WDDDDW
+                    WWWWWW"""
 
+    population = [{'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 20}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 8, 'weight': 31.0}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 4, 'weight': 29.0}]}]
 
+    island = Island(island_map=test_map, initial_population=[])
+    island.population_in_cell(population)
+    population_before = len(island.map[(3, 3)].population_Carnivore)
+    island.migration((3, 3))
+    population_after = len(island.map[(3, 3)].population_Carnivore)
 
+    assert population_before != population_after
 
-
-"""
-    
-def test_migration():
-    
-def test_island_season_cycle():
-    
-"""
+# def test_island_season_cycle():
