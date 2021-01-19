@@ -5,6 +5,7 @@ __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 
 class Visualization:
@@ -248,3 +249,54 @@ class Visualization:
                                                                vmax=self.cmax["Carnivore"])
             self._carnivore_heat.figure.colorbar(self._carnivore_dist, ax=self._carnivore_heat,
                                                  orientation="vertical")
+
+    def age_hist_update(self, herbivore, carnivore):
+        """
+
+
+        :param: herbivore data
+        :param: carnivore data
+        """
+        if self._age_histogram is None:
+            bin_set = math.ceil((self.hist_spec["age"]["max"]) / (self.hist_spec["age"]["delta"]))
+            self._age_hist_fig.clear()
+            self._age_hist_fig.set_title("Age - Histogram")
+            max_range = self.hist_spec["age"]["max"]
+            self._age_hist_fig.hist(herbivore["age"], bins=int(bin_set), range=(0, max_range),
+                                    histtype="step", color="green")
+            self._age_hist_fig.hist(carnivore["age"], bins=int(bin_set), range=(0, max_range),
+                                    histtype="step", color="red")
+
+    def weight_hist_update(self, herbivore, carnivore):
+        """
+
+
+        :param: herbivore data
+        :param: carnivore data
+        """
+        if self._age_histogram is None:
+            bin_set = math.ceil((self.hist_spec["weight"]["max"]) / (self.hist_spec["weight"]["delta"]))
+            self._age_hist_fig.clear()
+            self._age_hist_fig.set_title("Weight - Histogram")
+            max_range = self.hist_spec["weight"]["max"]
+            self._weight_hist_fig.hist(herbivore["weight"], bins=int(bin_set), range=(0, max_range),
+                                       histtype="step", color="green")
+            self._weight_hist_fig.hist(carnivore["weight"], bins=int(bin_set), range=(0, max_range),
+                                       histtype="step", color="red")
+
+    def fitness_hist_update(self, herbivore, carnivore):
+        """
+
+
+        :param: herbivore data
+        :param: carnivore data
+        """
+        if self._age_histogram is None:
+            bin_set = math.ceil((self.hist_spec["fitness"]["max"]) / (self.hist_spec["fitness"]["delta"]))
+            self._age_hist_fig.clear()
+            self._age_hist_fig.set_title("Fitness - Histogram")
+            max_range = self.hist_spec["fitness"]["max"]
+            self._fitness_hist_fig.hist(herbivore["fitnesss"], bins=int(bin_set), range=(0, max_range),
+                                        histtype="step", color="green")
+            self._fitness_hist_fig.hist(carnivore["fitness"], bins=int(bin_set), range=(0, max_range),
+                                        histtype="step", color="red")

@@ -140,10 +140,11 @@ def test_herbivore_eat():
     assert weight_before < weight_after
 
 
-def test_carnivore_eat():
+def test_carnivore_eat(mocker):
     """
-    Tests if the carnivore eats
+    Tests if the carnivore eats, if they eat they will weigh more
     """
+    mocker.patch("random.random", return_value=0)
 
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
                   {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
