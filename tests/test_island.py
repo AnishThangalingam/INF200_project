@@ -1,4 +1,11 @@
 # -*- encoding: utf-8 -*-
+"""
+This script contains several tests, which test the island scripts functions.
+
+To use this script the user must have installed the python package to the Python environment and
+import the island.py from the biosim package. The user must also import pytest
+
+"""
 
 __author__ = "Anish Thangalingam, Majorann Thevarjah"
 __email__ = "anish.thangalingam@nmbu.no ,Majorann.thevarajah@nmbu.no"
