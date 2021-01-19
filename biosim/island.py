@@ -12,7 +12,8 @@ __author__ = "Anish Thangalingam, Majorann Thevarjah"
 __email__ = "anish.thangalingam@nmbu.no ,Majorann.thevarajah@nmbu.no"
 
 import textwrap
-import random
+import numpy as np
+
 
 from .landscape import Water, Desert, Highland, Lowland
 
@@ -42,9 +43,6 @@ class Island:
         self.ini_pop = initial_population
         self.map_creating()
         self.population_in_cell(self.ini_pop)
-
-
-
 
     def check_boundary_and_invalid_landscape(self):
         """
@@ -89,7 +87,7 @@ class Island:
         neighbour_cells_loc = [(y_coord + 1, x_coord), (y_coord - 1, x_coord),
                                (y_coord, x_coord + 1), (y_coord, x_coord - 1)]
 
-        random_cell_from_list = random.choice(len(neighbour_cells_loc))
+        random_cell_from_list = np.random.choice(len(neighbour_cells_loc))
         cell = neighbour_cells_loc[random_cell_from_list]
         return cell
 

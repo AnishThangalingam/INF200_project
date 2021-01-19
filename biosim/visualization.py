@@ -281,10 +281,10 @@ class Visualization:
         :param: herbivore_weight: gets the weight of the herbivores
         :param: carnivore_weight: gets the weight of the carnivores
         """
-        if self._age_histogram is None:
+        if self._weight_histogram is None:
             bin_set = math.ceil((self.hist_spec["weight"]["max"]) / (self.hist_spec["weight"]["delta"]))
-            self._age_hist_fig.clear()
-            self._age_hist_fig.set_title("Weight - Histogram")
+            self._weight_hist_fig.clear()
+            self._weight_hist_fig.set_title("Weight - Histogram")
             max_range = self.hist_spec["weight"]["max"]
             self._weight_hist_fig.hist(herbivore_weight["weight"], bins=int(bin_set), range=(0, max_range),
                                        histtype="step", color="green")
@@ -298,10 +298,10 @@ class Visualization:
         :param: herbivore_fitness: gets the fitness of the herbivores
         :param: carnivore_fitness: gets the fitness of the carnivores
         """
-        if self._age_histogram is None:
+        if self._fitness_histogram is None:
             bin_set = math.ceil((self.hist_spec["fitness"]["max"]) / (self.hist_spec["fitness"]["delta"]))
-            self._age_hist_fig.clear()
-            self._age_hist_fig.set_title("Fitness - Histogram")
+            self._fitness_hist_fig.clear()
+            self._fitness_hist_fig.set_title("Fitness - Histogram")
             max_range = self.hist_spec["fitness"]["max"]
             self._fitness_hist_fig.hist(herbivore_fitness["fitness"], bins=int(bin_set), range=(0, max_range),
                                         histtype="step", color="green")
@@ -333,3 +333,4 @@ class Visualization:
         self.fitness_hist_update(herbivore_fitness, carnivore_fitness)
         self.age_hist_update(herbivore_age, carnivore_age)
         self.weight_hist_update(herbivore_weight, carnivore_weight)
+        plt.pause(1e-6)
