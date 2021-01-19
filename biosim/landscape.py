@@ -45,8 +45,8 @@ class Landscape:
         In this function we create an empty list for the population, and updates the population.
         The amount of food is given as 0, which will updated.
         """
-        self.population_Herbivore = []
-        self.population_Carnivore = []
+        self.population_herbivore = []
+        self.population_carnivore = []
         self.amount_of_food = 0
 
     def set_a_population(self, population_list):
@@ -58,12 +58,12 @@ class Landscape:
         """
         for each_animal in population_list:
             if each_animal["species"] == "Carnivore":
-                self.population_Carnivore.append(Carnivore(age=each_animal["age"],
+                self.population_carnivore.append(Carnivore(age=each_animal["age"],
                                                            weight=each_animal["weight"]))
 
         for each_animal in population_list:
             if each_animal["species"] == "Herbivore":
-                self.population_Herbivore.append(Herbivore(age=each_animal["age"],
+                self.population_herbivore.append(Herbivore(age=each_animal["age"],
                                                            weight=each_animal["weight"]))
 
     def get_number_of_herbivores(self):
@@ -73,7 +73,7 @@ class Landscape:
         :return: number of herbivores
         """
 
-        return len(self.population_Herbivore)
+        return len(self.population_herbivore)
 
     def get_number_of_carnivores(self):
         """
@@ -82,7 +82,7 @@ class Landscape:
         :return: number of carnivores
         """
 
-        return len(self.population_Carnivore)
+        return len(self.population_carnivore)
 
     def animal_aging(self):
         """
@@ -90,10 +90,10 @@ class Landscape:
         animals in the landscape age. The animals age one year for every year that passes.
         """
 
-        for herbivore in self.population_Herbivore:
+        for herbivore in self.population_herbivore:
             herbivore.grows_in_age()
 
-        for carnivore in self.population_Carnivore:
+        for carnivore in self.population_carnivore:
             carnivore.grows_in_age()
 
     def animal_death(self):
@@ -107,8 +107,8 @@ class Landscape:
         def living_animals(population):
             return [animal for animal in population if not animal.death()]
 
-        self.population_Carnivore = living_animals(self.population_Carnivore)
-        self.population_Herbivore = living_animals(self.population_Herbivore)
+        self.population_carnivore = living_animals(self.population_carnivore)
+        self.population_herbivore = living_animals(self.population_herbivore)
 
     def animal_weight_loss(self):
         """
@@ -116,10 +116,10 @@ class Landscape:
         both the herbivores and carnivores to lose weight every year.
         """
 
-        for herbivore in self.population_Herbivore:
+        for herbivore in self.population_herbivore:
             herbivore.weight_lose()
 
-        for carnivore in self.population_Carnivore:
+        for carnivore in self.population_carnivore:
             carnivore.weight_lose()
 
     def new_herbivore_babies(self):
@@ -135,11 +135,11 @@ class Landscape:
             return False
 
         if herbivores_present_count >= 2:
-            for animal in self.population_Herbivore:
+            for animal in self.population_herbivore:
                 new_born_baby = animal.baby(herbivores_present_count)
                 if new_born_baby is not None:
                     newborn_herbivores.append(new_born_baby)
-        self.population_Herbivore.extend(newborn_herbivores)
+        self.population_herbivore.extend(newborn_herbivores)
 
     def new_carnivore_babies(self):
         """
@@ -154,11 +154,11 @@ class Landscape:
             return False
 
         if carnivores_present_count >= 2:
-            for animal in self.population_Carnivore:
+            for animal in self.population_carnivore:
                 new_born_baby = animal.baby(carnivores_present_count)
                 if new_born_baby is not None:
                     newborn_carnivores.append(new_born_baby)
-        self.population_Carnivore.extend(newborn_carnivores)
+        self.population_carnivore.extend(newborn_carnivores)
 
     def set_food_parameters(self):
         """
@@ -174,8 +174,8 @@ class Landscape:
         they will eat even if the amount of food is less than the required amount of food. The amount of food
         is updated, so that its reduced for every time the herbivores eat.
         """
-        random.shuffle(self.population_Herbivore)
-        for herbivore in self.population_Herbivore:
+        random.shuffle(self.population_herbivore)
+        for herbivore in self.population_herbivore:
             if self.amount_of_food >= herbivore.parameters["F"]:
                 herbivore.eat(herbivore.parameters["F"])
                 self.amount_of_food -= herbivore.parameters["F"]
@@ -190,12 +190,12 @@ class Landscape:
         ones that are not killed by carnivores.
         """
 
-        self.population_Herbivore.sort(key=operator.attrgetter('fitness'))
-        self.population_Carnivore.sort(key=operator.attrgetter('fitness'), reverse=True)
+        self.population_herbivore.sort(key=operator.attrgetter('fitness'))
+        self.population_carnivore.sort(key=operator.attrgetter('fitness'), reverse=True)
 
-        for carnivore in self.population_Carnivore:
-            updated_herbivore_population = carnivore.carnivore_eat(self.population_Herbivore)
-            self.population_Herbivore = updated_herbivore_population
+        for carnivore in self.population_carnivore:
+            updated_herbivore_population = carnivore.carnivore_eat(self.population_herbivore)
+            self.population_herbivore = updated_herbivore_population
 
     def animal_migrate(self):
         """
@@ -208,11 +208,11 @@ class Landscape:
         migrated_herbivores = []
         migrated_carnivores = []
 
-        for herbivore in self.population_Herbivore:
+        for herbivore in self.population_herbivore:
             if herbivore.possible_for_moving() is True:
                 migrated_herbivores.append(herbivore)
 
-        for carnivore in self.population_Carnivore:
+        for carnivore in self.population_carnivore:
             if carnivore.possible_for_moving() is True:
                 migrated_carnivores.append(carnivore)
 
