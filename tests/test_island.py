@@ -142,8 +142,8 @@ def test_island_season_cycle():
 
     island = Island(island_map=test_map, initial_population=[])
     island.population_in_cell(population)
-    population_current_year = island.map[(3, 3)].population_Carnivore
+    population_current_year = len(island.map[(3, 3)].population_Carnivore)
     island.island_season_cycle()
-    population_next_year = island.map[(3, 3)].population_Carnivore
+    population_next_year = len(island.map[(3, 3)].population_Carnivore)
 
-    assert population_current_year == population_next_year
+    assert population_current_year != population_next_year
