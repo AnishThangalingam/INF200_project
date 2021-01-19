@@ -328,7 +328,7 @@ class Visualization:
         self.carnivore_heat_map_update(distribution)
         count_herbivore = number_of_animal["Herbivore"]
         count_carnivore = number_of_animal["Carnivore"]
-        self.curves_update(year, count_carnivore, count_herbivore)
+        self.curves_update(year, count_herbivore, count_carnivore)
         self.year_update(year)
         self.fitness_hist_update(herbivore_fitness, carnivore_fitness)
         self.age_hist_update(herbivore_age, carnivore_age)
