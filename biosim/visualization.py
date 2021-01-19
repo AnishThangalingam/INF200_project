@@ -11,6 +11,7 @@ class Visualization:
     """
     Visualization class for the visualization of the simulation
     """
+
     def __init__(self, cmax, hist_spec):
         """
         Initializing the visualization class
@@ -54,7 +55,7 @@ class Visualization:
         if self._map is None:
             self._map = self._fig.add_subplot(self._grids[:3, :5])
             self._map.title.set_text("Island")
-            self._map. axis("off")
+            self._map.axis("off")
 
     def subplot_for_year(self):
         """
@@ -224,8 +225,8 @@ class Visualization:
             self._herbivore_dist.set_data(distribution.pivot("Row", "Col", "Herbivore"))
         else:
             self._herbivore_dist = self._herbivore_heat.imshow(distribution.pivot("Row", "Col", "Herbivore"),
-                                                              interpolation="nearest", vmin=0,
-                                                              vmax=self.cmax["Herbivore"])
+                                                               interpolation="nearest", vmin=0,
+                                                               vmax=self.cmax["Herbivore"])
             self._herbivore_heat.figure.colorbar(self._herbivore_dist, ax=self._herbivore_heat,
                                                  orientation="vertical")
 

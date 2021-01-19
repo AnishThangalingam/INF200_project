@@ -20,6 +20,7 @@ def test_get_number_of_Herbivores():
 
     assert Test == 3
 
+
 def test_get_number_of_Carnivores():
     """
     Tests if it checks amount of Carnivores it is in the population
@@ -34,6 +35,7 @@ def test_get_number_of_Carnivores():
 
     assert Test == 3
 
+
 def test_animal_aging():
     """
     Tests if animal age for every year that passes
@@ -47,6 +49,7 @@ def test_animal_aging():
     age_after = lowland.population_Carnivore[0].age
 
     assert age_after == age_before + 1
+
 
 def test_animal_death():
     """
@@ -66,6 +69,7 @@ def test_animal_death():
 
     assert len(pop_before) - 1 == len(pop_after)
 
+
 def test_weight_loss():
     """
     Tests if the animal has lost weight after a year
@@ -81,9 +85,11 @@ def test_weight_loss():
 
     assert weight_before > weight_after
 
+
 def test_new_herbivore_babies(mocker):
     """
     Tests if the newborn herbivores are added to the herbivore population
+    The mocker makes it more likely for a baby animal to be born
     """
     mocker.patch("random.random", return_value=0)
 
@@ -97,9 +103,11 @@ def test_new_herbivore_babies(mocker):
 
     assert len(lowland.population_Herbivore) > len(population)
 
+
 def test_new_carnivore_babies(mocker):
     """
     Tests if the newborn carnivores are added to the carnivore population
+    The mocker makes it more likely for a baby animal to be born
     """
     mocker.patch("random.random", return_value=0)
 
@@ -112,6 +120,7 @@ def test_new_carnivore_babies(mocker):
     lowland.new_carnivore_babies()
 
     assert len(lowland.population_Carnivore) > len(population)
+
 
 def test_herbivore_eat():
     """
@@ -129,6 +138,7 @@ def test_herbivore_eat():
     weight_after = highland.population_Herbivore[0].weight
 
     assert weight_before < weight_after
+
 
 def test_carnivore_eat():
     """
@@ -149,6 +159,7 @@ def test_carnivore_eat():
     weight_after = desert.population_Carnivore[0].weight
 
     assert weight_before < weight_after
+
 
 def test_animal_migrate(mocker):
     """
@@ -172,6 +183,7 @@ def test_animal_migrate(mocker):
     assert herbivore != []
     assert carnivore != []
 
+
 def test_new_parameter_set():
     """
     Tests if the function are able to set the new parameters
@@ -182,6 +194,7 @@ def test_new_parameter_set():
     highland.new_parameter_set(Test_parameter)
 
     assert Test_parameter == highland.parameters
+
 
 def test_set_population():
     """
@@ -200,6 +213,7 @@ def test_set_population():
 
     assert len(highland.population_Carnivore) == 3
     assert len(highland.population_Herbivore) == 4
+
 
 def test_set_parameters():
     """
