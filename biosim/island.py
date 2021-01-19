@@ -102,7 +102,7 @@ class Island:
         for animal in current_population:
             pop = animal["pop"]
             loc = animal["loc"]
-            self.map[loc].set_a_population[pop]
+            self.map[loc].set_a_population(pop)
 
     def map_creating(self):
         """
@@ -155,12 +155,13 @@ class Island:
         """
 
         for loc_pos in self.map:
-            self.map[loc_pos].animal_aging()
-            self.map[loc_pos].animal_death()
-            self.map[loc_pos].animal_weight_loss()
-            self.map[loc_pos].new_herbivore_babies()
-            self.map[loc_pos].new_carnivore_babies()
             self.map[loc_pos].set_food_parameters()
             self.map[loc_pos].herbivore_eat()
             self.map[loc_pos].carnivore_eat()
+            self.map[loc_pos].new_herbivore_babies()
+            self.map[loc_pos].new_carnivore_babies()
             self.migration(loc_pos)
+            self.map[loc_pos].animal_weight_loss()
+            self.map[loc_pos].animal_aging()
+            self.map[loc_pos].animal_death()
+

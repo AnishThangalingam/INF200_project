@@ -5,11 +5,6 @@ __email__ = "anish.thangalingam@nmbu.no ,Majorann.thevarajah@nmbu.no"
 
 
 def test_check_boundary_and_invalid_landscape():
-    """
-
-    :return:
-    """
-
 
 
 """
