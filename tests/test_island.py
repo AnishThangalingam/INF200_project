@@ -52,7 +52,7 @@ def test_move_to_cell(mocker):
     Tests if the function gives us a random choice of the four neighbouring cells the animal ca move
     to.
     """
-    mocker.patch("random.choice", return_value=2)
+    mocker.patch("numpy.random.choice", return_value=2)
     test_map = """\
                WWWWWW
                WHHHHW
@@ -67,19 +67,42 @@ def test_move_to_cell(mocker):
     assert next_cell == (2, 4)
 
 
-#def test_map_creating():
+def test_population_in_cell():
     """
-    Tests if the function 
-    
-    :return: 
+    Tests if the function gives us the population of a particular cell.
+    """
+    test_map = """\
+                  WWWWWW
+                  WHHHHW
+                  WDDDDW
+                  WWWWWW"""
+
+    population = [{'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 20}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 8, 'weight': 31.0}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 4, 'weight': 29.0}]}]
+
+    island = Island(island_map=test_map, initial_population=[])
+    island.population_in_cell(population)
+
+    assert len(island.map[(3, 3)].population_Carnivore) == 3
+
+
+def test_map_creating():
+    """
+    Tests if the function creates a map
     """
 
-    """
+
+
+
+
+"""
     
-    def test_population_in_cell():
+def test_migration():
     
-    def test_migration():
+def test_island_season_cycle():
     
-    def test_island_season_cycle():
-    
-    """
+"""
