@@ -67,7 +67,7 @@ class Landscape:
                 self.population_Herbivore.append(Herbivore(age=each_animal["age"],
                                                            weight=each_animal["weight"]))
 
-    def get_number_of_Herbivores(self):
+    def get_number_of_herbivores(self):
         """
         This function gives us the number of herbivores in the population
 
@@ -76,7 +76,7 @@ class Landscape:
 
         return len(self.population_Herbivore)
 
-    def get_number_of_Carnivores(self):
+    def get_number_of_carnivores(self):
         """
         This function gives us the number of carnivores in the population
 
@@ -129,18 +129,18 @@ class Landscape:
         So if a animal is born it will be added to the empty list of newborn herbivores. So the population
         will extend with the list of newborn herbivores.
         """
-        Newborn_herbivores = []
+        newborn_herbivores = []
 
-        Herbivores_present_count = self.get_number_of_Herbivores()
-        if Herbivores_present_count < 2:
+        herbivores_present_count = self.get_number_of_herbivores()
+        if herbivores_present_count < 2:
             return False
 
-        if Herbivores_present_count >= 2:
+        if herbivores_present_count >= 2:
             for animal in self.population_Herbivore:
-                new_born_baby = animal.baby(Herbivores_present_count)
+                new_born_baby = animal.baby(herbivores_present_count)
                 if new_born_baby is not None:
-                    Newborn_herbivores.append(new_born_baby)
-        self.population_Herbivore.extend(Newborn_herbivores)
+                    newborn_herbivores.append(new_born_baby)
+        self.population_Herbivore.extend(newborn_herbivores)
 
     def new_carnivore_babies(self):
         """
@@ -148,18 +148,18 @@ class Landscape:
         So if a animal is born it will be added to the empty list of newborn carnivores. So the population
         will extend with the list newborn carnivores.
         """
-        Newborn_carnivores = []
+        newborn_carnivores = []
 
-        Carnivores_present_count = self.get_number_of_Carnivores()
-        if Carnivores_present_count < 2:
+        carnivores_present_count = self.get_number_of_carnivores()
+        if carnivores_present_count < 2:
             return False
 
-        if Carnivores_present_count >= 2:
+        if carnivores_present_count >= 2:
             for animal in self.population_Carnivore:
-                new_born_baby = animal.baby(Carnivores_present_count)
+                new_born_baby = animal.baby(carnivores_present_count)
                 if new_born_baby is not None:
-                    Newborn_carnivores.append(new_born_baby)
-        self.population_Carnivore.extend(Newborn_carnivores)
+                    newborn_carnivores.append(new_born_baby)
+        self.population_Carnivore.extend(newborn_carnivores)
 
     def set_food_parameters(self):
         """
@@ -206,18 +206,18 @@ class Landscape:
         :return: lists, lists of which animals that have migrated
         """
 
-        Migrated_Herbivores = []
-        Migrated_Carnivores = []
+        migrated_herbivores = []
+        migrated_carnivores = []
 
         for herbivore in self.population_Herbivore:
             if herbivore.possible_for_moving() is True:
-                Migrated_Herbivores.append(herbivore)
+                migrated_herbivores.append(herbivore)
 
         for carnivore in self.population_Carnivore:
             if carnivore.possible_for_moving() is True:
-                Migrated_Carnivores.append(carnivore)
+                migrated_carnivores.append(carnivore)
 
-        return Migrated_Herbivores, Migrated_Carnivores
+        return migrated_herbivores, migrated_carnivores
 
 
 class Highland(Landscape):

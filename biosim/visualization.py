@@ -54,6 +54,7 @@ class Visualization:
         """
         if self._fig is None:
             self._fig = plt.figure(constrained_layout=True, figsize=(10, 8))
+            self._fig.set_facecolor('lightblue')
             self._grids = self._fig.add_gridspec(8, 12)
 
     def subplot_for_map(self):

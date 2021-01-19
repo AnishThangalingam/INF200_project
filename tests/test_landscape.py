@@ -6,7 +6,7 @@ __email__ = 'anish.thangalingam@nmbu.no, majorann.thevarajah@nmbu.no'
 from biosim.landscape import Highland, Lowland, Desert
 
 
-def test_get_number_of_Herbivores():
+def test_get_number_of_herbivores():
     """
     Tests if it checks the amount of Herbivores it is in the population
     """
@@ -16,12 +16,12 @@ def test_get_number_of_Herbivores():
 
     lowland = Lowland()
     lowland.set_a_population(population)
-    Test = lowland.get_number_of_Herbivores()
+    test = lowland.get_number_of_herbivores()
 
-    assert Test == 3
+    assert test == 3
 
 
-def test_get_number_of_Carnivores():
+def test_get_number_of_carnivores():
     """
     Tests if it checks amount of Carnivores it is in the population
     """
@@ -31,9 +31,9 @@ def test_get_number_of_Carnivores():
 
     highland = Highland()
     highland.set_a_population(population)
-    Test = highland.get_number_of_Carnivores()
+    test = highland.get_number_of_carnivores()
 
-    assert Test == 3
+    assert test == 3
 
 
 def test_animal_aging():
@@ -145,7 +145,6 @@ def test_carnivore_eat(mocker):
     Tests if the carnivore eats, if they eat they will weigh more
     """
     mocker.patch("random.random", return_value=0)
-
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
                   {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
                   {'species': 'Carnivore', 'age': 7, 'weight': 24.0},
@@ -189,12 +188,12 @@ def test_new_parameter_set():
     """
     Tests if the function are able to set the new parameters
     """
-    Test_parameter = {"f_max": 800}
+    test_parameter = {"f_max": 800}
 
     highland = Highland()
-    highland.new_parameter_set(Test_parameter)
+    highland.new_parameter_set(test_parameter)
 
-    assert Test_parameter == highland.parameters
+    assert test_parameter == highland.parameters
 
 
 def test_set_population():
