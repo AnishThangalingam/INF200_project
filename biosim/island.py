@@ -12,7 +12,8 @@ __author__ = "Anish Thangalingam, Majorann Thevarjah"
 __email__ = "anish.thangalingam@nmbu.no ,Majorann.thevarajah@nmbu.no"
 
 import textwrap
-import random
+import numpy as np
+
 
 from .landscape import Water, Desert, Highland, Lowland
 
@@ -86,9 +87,9 @@ class Island:
         neighbour_cells_loc = [(y_coord + 1, x_coord), (y_coord - 1, x_coord),
                                (y_coord, x_coord + 1), (y_coord, x_coord - 1)]
 
-        random_cell_from_list = random.choice(neighbour_cells_loc)
-
-        return random_cell_from_list
+        random_cell_from_list = np.random.choice(len(neighbour_cells_loc))
+        cell = neighbour_cells_loc[random_cell_from_list]
+        return cell
 
     def population_in_cell(self, population):
         """
@@ -102,7 +103,7 @@ class Island:
         for animal in current_population:
             pop = animal["pop"]
             loc = animal["loc"]
-            self.map[loc].set_a_population[pop]
+            self.map[loc].set_a_population(pop)
 
     def map_creating(self):
         """
@@ -134,33 +135,33 @@ class Island:
 
             for herbivore in migrating_herbivore:
                 new_loc = self.move_to_cell(loc_pos)
-                if not self.map[new_loc].flag:
-                    break
-                else:
+                if self.map[new_loc].flag:
                     self.map[new_loc].population_Herbivore.append(herbivore)
                     self.map[loc_pos].population_Herbivore.remove(herbivore)
+                else:
+                    continue
 
             for carnivore in migrating_carnivore:
                 new_loc = self.move_to_cell(loc_pos)
-                if not self.map[new_loc].flag:
-                    break
-                else:
+                if self.map[new_loc].flag:
                     self.map[new_loc].population_Carnivore.append(carnivore)
                     self.map[loc_pos].population_Carnivore.remove(carnivore)
+                else:
+                    continue
 
     def island_season_cycle(self):
         """
-        This function gives us the cycle for a year. This is functions work annually and works for all the cells in
+        This function gives us the cycle for a year. These functions work annually and works for all the cells in
         the island.
         """
 
         for loc_pos in self.map:
-            self.map[loc_pos].animal_aging()
-            self.map[loc_pos].animal_death()
-            self.map[loc_pos].animal_weight_loss()
-            self.map[loc_pos].new_herbivore_babies()
-            self.map[loc_pos].new_carnivore_babies()
             self.map[loc_pos].set_food_parameters()
             self.map[loc_pos].herbivore_eat()
             self.map[loc_pos].carnivore_eat()
+            self.map[loc_pos].new_herbivore_babies()
+            self.map[loc_pos].new_carnivore_babies()
             self.migration(loc_pos)
+            self.map[loc_pos].animal_weight_loss()
+            self.map[loc_pos].animal_aging()
+            self.map[loc_pos].animal_death()
