@@ -94,7 +94,7 @@ def test_population_in_cell():
     island = Island(island_map=test_map, initial_population=[])
     island.population_in_cell(population)
 
-    assert len(island.map[(3, 3)].population_Carnivore) == 3
+    assert len(island.map[(3, 3)].population_carnivore) == 3
 
 
 def test_migration(mocker):
@@ -110,18 +110,18 @@ def test_migration(mocker):
                     WDDDDW
                     WWWWWW"""
 
-    population = [{'loc': (3, 3),
+    population = [{'loc': (2, 3),
                    'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 20}]},
-                  {'loc': (3, 3),
+                  {'loc': (2, 3),
                    'pop': [{'species': 'Carnivore', 'age': 8, 'weight': 31.0}]},
-                  {'loc': (3, 3),
+                  {'loc': (2, 3),
                    'pop': [{'species': 'Carnivore', 'age': 4, 'weight': 29.0}]}]
 
     island = Island(island_map=test_map, initial_population=[])
     island.population_in_cell(population)
-    population_before = len(island.map[(3, 3)].population_Carnivore)
-    island.migration((3, 3))
-    population_after = len(island.map[(3, 3)].population_Carnivore)
+    population_before = len(island.map[(2, 3)].population_carnivore)
+    island.migration((2, 3))
+    population_after = len(island.map[(2, 3)].population_carnivore)
 
     assert population_before != population_after
 
@@ -133,7 +133,7 @@ def test_island_season_cycle(mocker):
     cell.
 
     """
-    mocker.patch("numpy.random.random", return_value=0)
+    mocker.patch("random.random", return_value=0)
     test_map = """\
                     WWWWWW
                     WHHHHW
@@ -150,8 +150,8 @@ def test_island_season_cycle(mocker):
 
     island = Island(island_map=test_map, initial_population=[])
     island.population_in_cell(population)
-    population_current_year = len(island.map[(3, 3)].population_Carnivore)
+    population_current_year = len(island.map[(3, 3)].population_carnivore)
     island.island_season_cycle()
-    population_next_year = len(island.map[(3, 3)].population_Carnivore)
+    population_next_year = len(island.map[(3, 3)].population_carnivore)
 
     assert population_current_year != population_next_year

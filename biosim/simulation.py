@@ -198,8 +198,8 @@ class BioSim:
         count_of_per_species = {"Herbivore": 0, "Carnivore": 0}
         for position in self.island.map:
             if self.island.map[position].flag:
-                count_of_per_species["Carnivore"] += len(self.island.map[position].population_Carnivore)
-                count_of_per_species["Herbivore"] += len(self.island.map[position].population_Herbivore)
+                count_of_per_species["Carnivore"] += len(self.island.map[position].population_carnivore)
+                count_of_per_species["Herbivore"] += len(self.island.map[position].population_herbivore)
         return count_of_per_species
 
     @property
@@ -209,8 +209,8 @@ class BioSim:
         for coordinate, cell in self.island.map.items():
             row = coordinate[0]
             col = coordinate[1]
-            herbivore = len(cell.population_Herbivore)
-            carnivore = len(cell.population_Carnivore)
+            herbivore = len(cell.population_herbivore)
+            carnivore = len(cell.population_carnivore)
             cell_data.append([row, col, herbivore, carnivore])
         distribution = pd.DataFrame(data=cell_data, columns=['Row', 'Col', 'Herbivore', 'Carnivore'])
         return distribution
@@ -229,10 +229,10 @@ class BioSim:
         carnivore_fitness_dictionary = {"fitness": []}
         for cell in self.island.map:
             if self.island.map[cell].flag:
-                for carnivore in self.island.map[cell].population_Carnivore:
+                for carnivore in self.island.map[cell].population_carnivore:
                     fitness_carnivore_list.append(carnivore.fitness)
 
-            for herbivore in self.island.map[cell].population_Herbivore:
+            for herbivore in self.island.map[cell].population_herbivore:
                 fitness_herbivore_list.append(herbivore.fitness)
         herbivore_fitness_dictionary["fitness"] = np.array(fitness_herbivore_list)
         carnivore_fitness_dictionary["fitness"] = np.array(fitness_carnivore_list)
@@ -252,10 +252,10 @@ class BioSim:
         carnivore_age_dictionary = {"age": []}
         for cell in self.island.map:
             if self.island.map[cell].flag:
-                for carnivore in self.island.map[cell].population_Carnivore:
+                for carnivore in self.island.map[cell].population_carnivore:
                     age_carnivore_list.append(carnivore.age)
 
-                for herbivore in self.island.map[cell].population_Herbivore:
+                for herbivore in self.island.map[cell].population_herbivore:
                     age_herbivore_list.append(herbivore.age)
         herbivore_age_dictionary["age"] = np.array(age_herbivore_list)
         carnivore_age_dictionary["age"] = np.array(age_carnivore_list)
@@ -276,10 +276,10 @@ class BioSim:
         carnivore_weight_dictionary = {"weight": []}
         for cell in self.island.map:
             if self.island.map[cell].flag:
-                for carnivore in self.island.map[cell].population_Carnivore:
+                for carnivore in self.island.map[cell].population_carnivore:
                     weight_carnivore_list.append(carnivore.weight)
 
-                for herbivore in self.island.map[cell].population_Herbivore:
+                for herbivore in self.island.map[cell].population_herbivore:
                     weight_herbivore_list.append(herbivore.weight)
         herbivore_weight_dictionary["weight"] = np.array(weight_herbivore_list)
         carnivore_weight_dictionary["weight"] = np.array(weight_carnivore_list)

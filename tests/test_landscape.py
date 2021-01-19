@@ -51,9 +51,9 @@ def test_animal_aging():
 
     lowland = Lowland()
     lowland.set_a_population(population)
-    age_before = lowland.population_Carnivore[0].age
+    age_before = lowland.population_carnivore[0].age
     lowland.animal_aging()
-    age_after = lowland.population_Carnivore[0].age
+    age_after = lowland.population_carnivore[0].age
 
     assert age_after == age_before + 1
 
@@ -69,10 +69,10 @@ def test_animal_death():
 
     desert = Desert()
     desert.set_a_population(population)
-    desert.population_Carnivore[1].weight = 0
-    pop_before = desert.population_Carnivore
+    desert.population_carnivore[1].weight = 0
+    pop_before = desert.population_carnivore
     desert.animal_death()
-    pop_after = desert.population_Carnivore
+    pop_after = desert.population_carnivore
 
     assert len(pop_before) - 1 == len(pop_after)
 
@@ -86,9 +86,9 @@ def test_weight_loss():
 
     highland = Highland()
     highland.set_a_population(population)
-    weight_before = highland.population_Carnivore[0].weight
+    weight_before = highland.population_carnivore[0].weight
     highland.animal_weight_loss()
-    weight_after = highland.population_Carnivore[0].weight
+    weight_after = highland.population_carnivore[0].weight
 
     assert weight_before > weight_after
 
@@ -108,7 +108,7 @@ def test_new_herbivore_babies(mocker):
     lowland.set_a_population(population)
     lowland.new_herbivore_babies()
 
-    assert len(lowland.population_Herbivore) > len(population)
+    assert len(lowland.population_herbivore) > len(population)
 
 
 def test_new_carnivore_babies(mocker):
@@ -126,7 +126,7 @@ def test_new_carnivore_babies(mocker):
     lowland.set_a_population(population)
     lowland.new_carnivore_babies()
 
-    assert len(lowland.population_Carnivore) > len(population)
+    assert len(lowland.population_carnivore) > len(population)
 
 
 def test_herbivore_eat():
@@ -140,9 +140,9 @@ def test_herbivore_eat():
     highland = Highland()
     highland.set_a_population(population)
     highland.set_food_parameters()
-    weight_before = highland.population_Herbivore[0].weight
+    weight_before = highland.population_herbivore[0].weight
     highland.herbivore_eat()
-    weight_after = highland.population_Herbivore[0].weight
+    weight_after = highland.population_herbivore[0].weight
 
     assert weight_before < weight_after
 
@@ -161,9 +161,9 @@ def test_carnivore_eat(mocker):
 
     desert = Desert()
     desert.set_a_population(population)
-    weight_before = desert.population_Carnivore[0].weight
+    weight_before = desert.population_carnivore[0].weight
     desert.carnivore_eat()
-    weight_after = desert.population_Carnivore[0].weight
+    weight_after = desert.population_carnivore[0].weight
 
     assert weight_before < weight_after
 
@@ -218,8 +218,8 @@ def test_set_population():
     highland = Highland()
     highland.set_a_population(population)
 
-    assert len(highland.population_Carnivore) == 3
-    assert len(highland.population_Herbivore) == 4
+    assert len(highland.population_carnivore) == 3
+    assert len(highland.population_herbivore) == 4
 
 
 def test_set_parameters():

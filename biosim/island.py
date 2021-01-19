@@ -136,16 +136,16 @@ class Island:
             for herbivore in migrating_herbivore:
                 new_loc = self.move_to_cell(loc_pos)
                 if self.map[new_loc].flag:
-                    self.map[new_loc].population_Herbivore.append(herbivore)
-                    self.map[loc_pos].population_Herbivore.remove(herbivore)
+                    self.map[new_loc].population_herbivore.append(herbivore)
+                    self.map[loc_pos].population_herbivore.remove(herbivore)
                 else:
                     continue
 
             for carnivore in migrating_carnivore:
                 new_loc = self.move_to_cell(loc_pos)
                 if self.map[new_loc].flag:
-                    self.map[new_loc].population_Carnivore.append(carnivore)
-                    self.map[loc_pos].population_Carnivore.remove(carnivore)
+                    self.map[new_loc].population_carnivore.append(carnivore)
+                    self.map[loc_pos].population_carnivore.remove(carnivore)
                 else:
                     continue
 
