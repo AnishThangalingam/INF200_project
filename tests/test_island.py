@@ -126,13 +126,14 @@ def test_migration(mocker):
     assert population_before != population_after
 
 
-def test_island_season_cycle():
+def test_island_season_cycle(mocker):
     """
     Tests if the function gives us the population after a annual cycle in the cell, so if the current population is
     not the same as next years population. Then the function work and the season cycle affected the animals in the
     cell.
 
     """
+    mocker.patch("numpy.random.random", return_value=0)
     test_map = """\
                     WWWWWW
                     WHHHHW
