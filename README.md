@@ -31,6 +31,10 @@ and carnivores and showing their behavior in the island according to their chara
     * landscape.rst 
     * simulation.rst 
     * visualization.rst 
+    * test_animals.rst 
+    * test_island.rst 
+    * test_landscape.rst 
+    * test_biosim_interface.rst
 * ##### examples
     * save_fig_check.py
 * ##### tests
