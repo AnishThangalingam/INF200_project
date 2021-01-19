@@ -1,4 +1,11 @@
 # -*- encoding: utf-8 -*-
+"""
+This script contains visualization class and the pupose of this class is to give detailed visualization of the
+simulation in Island. This class will create a plot window with several subplot to show island map,
+population growth, heatmaps and histograms. It will show the graphics of the simulation.
+
+The user must have installed math, numpy and matplotlib package to the python environment to run this script.
+"""
 
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
@@ -250,53 +257,79 @@ class Visualization:
             self._carnivore_heat.figure.colorbar(self._carnivore_dist, ax=self._carnivore_heat,
                                                  orientation="vertical")
 
-    def age_hist_update(self, herbivore, carnivore):
+    def age_hist_update(self, herbivore_age, carnivore_age):
         """
+        This function updates the age histogram of the animals age
 
-
-        :param: herbivore data
-        :param: carnivore data
+        :param: herbivore_age: gets the age of the herbivores
+        :param: carnivore_age: gets the age of the carnivores
         """
         if self._age_histogram is None:
             bin_set = math.ceil((self.hist_spec["age"]["max"]) / (self.hist_spec["age"]["delta"]))
             self._age_hist_fig.clear()
             self._age_hist_fig.set_title("Age - Histogram")
             max_range = self.hist_spec["age"]["max"]
-            self._age_hist_fig.hist(herbivore["age"], bins=int(bin_set), range=(0, max_range),
+            self._age_hist_fig.hist(herbivore_age["age"], bins=int(bin_set), range=(0, max_range),
                                     histtype="step", color="green")
-            self._age_hist_fig.hist(carnivore["age"], bins=int(bin_set), range=(0, max_range),
+            self._age_hist_fig.hist(carnivore_age["age"], bins=int(bin_set), range=(0, max_range),
                                     histtype="step", color="red")
 
-    def weight_hist_update(self, herbivore, carnivore):
+    def weight_hist_update(self, herbivore_weight, carnivore_weight):
         """
+        This function updates the weight histogram of the animals weight
 
-
-        :param: herbivore data
-        :param: carnivore data
+        :param: herbivore_weight: gets the weight of the herbivores
+        :param: carnivore_weight: gets the weight of the carnivores
         """
         if self._age_histogram is None:
             bin_set = math.ceil((self.hist_spec["weight"]["max"]) / (self.hist_spec["weight"]["delta"]))
             self._age_hist_fig.clear()
             self._age_hist_fig.set_title("Weight - Histogram")
             max_range = self.hist_spec["weight"]["max"]
-            self._weight_hist_fig.hist(herbivore["weight"], bins=int(bin_set), range=(0, max_range),
+            self._weight_hist_fig.hist(herbivore_weight["weight"], bins=int(bin_set), range=(0, max_range),
                                        histtype="step", color="green")
-            self._weight_hist_fig.hist(carnivore["weight"], bins=int(bin_set), range=(0, max_range),
+            self._weight_hist_fig.hist(carnivore_weight["weight"], bins=int(bin_set), range=(0, max_range),
                                        histtype="step", color="red")
 
-    def fitness_hist_update(self, herbivore, carnivore):
+    def fitness_hist_update(self, herbivore_fitness, carnivore_fitness):
         """
+        This function updates the fitness histogram of the animals fitness
 
-
-        :param: herbivore data
-        :param: carnivore data
+        :param: herbivore_fitness: gets the fitness of the herbivores
+        :param: carnivore_fitness: gets the fitness of the carnivores
         """
         if self._age_histogram is None:
             bin_set = math.ceil((self.hist_spec["fitness"]["max"]) / (self.hist_spec["fitness"]["delta"]))
             self._age_hist_fig.clear()
             self._age_hist_fig.set_title("Fitness - Histogram")
             max_range = self.hist_spec["fitness"]["max"]
-            self._fitness_hist_fig.hist(herbivore["fitnesss"], bins=int(bin_set), range=(0, max_range),
+            self._fitness_hist_fig.hist(herbivore_fitness["fitness"], bins=int(bin_set), range=(0, max_range),
                                         histtype="step", color="green")
-            self._fitness_hist_fig.hist(carnivore["fitness"], bins=int(bin_set), range=(0, max_range),
+            self._fitness_hist_fig.hist(carnivore_fitness["fitness"], bins=int(bin_set), range=(0, max_range),
                                         histtype="step", color="red")
+
+    def update_graphics_per_year(self, distribution, number_of_animal, year, herbivore_fitness, carnivore_fitness,
+                                 herbivore_age, carnivore_age, herbivore_weight, carnivore_weight):
+        """
+        updates the graphics every year, so that these functions are updated for every year that passes. This makes it
+        possible to show visualisation for over a hundred years.
+
+        :param distribution: Information about carnivores in each cell, distribution is a dataframe.
+        :param number_of_animal: gives us the number of the species
+        :param year: present year
+        :param herbivore_fitness: gets the fitness of the herbivores
+        :param carnivore_fitness: gets the fitness of the carnivores
+        :param herbivore_age: gets the age of the herbivores
+        :param carnivore_age: gets the age of the carnivores
+        :param herbivore_weight: gets the weight of the herbivores
+        :param carnivore_weight: gets the weight of the carnivores
+        """
+        self.herbivore_heat_map_update(distribution)
+        self.carnivore_heat_map_update(distribution)
+        count_herbivore = number_of_animal["Herbivore"]
+        count_carnivore = number_of_animal["Carnivore"]
+        self.curves_update(year, count_carnivore, count_herbivore)
+        self.year_update(year)
+        self.fitness_hist_update(herbivore_fitness, carnivore_fitness)
+        self.age_hist_update(herbivore_age, carnivore_age)
+        self.weight_hist_update(herbivore_weight, carnivore_weight)
