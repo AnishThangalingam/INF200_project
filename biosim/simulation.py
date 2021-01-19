@@ -68,7 +68,7 @@ class BioSim:
 
         if ymax_animals is None:
             # Adjust y-max value
-            self.ymax_animals = 18000
+            self.ymax_animals = 21000
         else:
             self.ymax_animals = ymax_animals
 
