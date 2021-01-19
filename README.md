@@ -23,6 +23,14 @@ and carnivores and showing their behavior in the island according to their chara
     
 * ##### checks
     * check_sim.py
+* ##### docs
+    * confy.py
+    * index.rst
+    * animals.rst 
+    * island.rst 
+    * landscape.rst 
+    * simulation.rst 
+    * visualization.rst 
 * ##### examples
     * save_fig_check.py
 * ##### tests
