@@ -201,7 +201,7 @@ class Visualization:
 
         :params: island_year: present year at island
         """
-        self._year_text.set_text(f"year: {island_year}")
+        self._year_text.set_text(f"Year: {island_year}")
 
     def curves_update(self, year, herbivore_count, carnivore_count):
         """
