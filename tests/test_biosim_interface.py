@@ -132,6 +132,7 @@ def reset_landscape_defaults():
     BioSim(island_map="W", ini_pop=[], seed=1).set_landscape_parameters('L', {'f_max': 800.0})
     BioSim(island_map="W", ini_pop=[], seed=1).set_landscape_parameters('H', {'f_max': 300.0})
 
+
 @pytest.mark.parametrize('lscape, params',
                          [('L', {'f_max': 100.}),
                           ('H', {'f_max': 200.})])
@@ -212,6 +213,7 @@ def test_set_plot_limits():
     BioSim(island_map='W', ini_pop=[], seed=1, ymax_animals=20,
            cmax_animals={'Herbivore': 10, 'Carnivore': 20})
 
+
 @pytest.mark.parametrize('prop, config',
                          [('fitness', {'max': 1.0, 'delta': 0.05}),
                           ('age', {'max': 60.0, 'delta': 2}),
@@ -221,7 +223,6 @@ def test_configure_histograms(prop, config):
     BioSim(island_map='W', ini_pop=[], seed=1, ymax_animals=20,
            cmax_animals={'Herbivore': 10, 'Carnivore': 20},
            hist_specs={prop: config})
-
 
 
 @pytest.fixture
