@@ -1,5 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+"""
+This script contains a main class called BioSim where it will run the
+simulation for the island.
+
+The result of the simulation will be shown in a plot window.
+This script has the ability to make mp4 movie of the simulation.
+"""
+
+
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
