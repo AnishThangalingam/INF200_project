@@ -6,6 +6,12 @@ import matplotlib.pyplot as plt
 from biosim.simulation import BioSim
 
 """
+The code is almost the came as the check_sim.py
+The only difference is that this saves the image as a pdf
+document. 
+"""
+
+"""
 Compatibility check for BioSim simulations.
 
 This script shall function with biosim packages written for
@@ -15,9 +21,7 @@ the INF200 project January 2021.
 __author__ = "Hans Ekkehard Plesser, NMBU"
 __email__ = "hans.ekkehard.plesser@nmbu.no"
 
-
 if __name__ == '__main__':
-
     geogr = """\
                WWWWWWWWWWWWWWWWWWWWW
                WWWWWWWWHWWWWLLLLLLLW
@@ -61,3 +65,4 @@ if __name__ == '__main__':
     sim.simulate(num_years=100, vis_years=1, img_years=200)
     sim.add_population(population=ini_carns)
     sim.simulate(num_years=100, vis_years=1, img_years=200)
+    plt.savefig('check_sim_1001.pdf')
