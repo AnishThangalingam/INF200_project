@@ -1,5 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+"""
+This script contains several tests where it test almost the hole animals.py.
+
+To use this script the user has to have installed the python
+package to the Python environment and have to import the animals.py
+from biosim package. 
+"""
+
+
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
