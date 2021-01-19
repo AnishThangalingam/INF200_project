@@ -8,7 +8,7 @@ from biosim.landscape import Highland, Lowland, Desert
 
 def test_get_number_of_Herbivores():
     """
-    Tests if it checks amount of Herbivores in the island
+    Tests if it checks the amount of Herbivores it is in the population
     """
     population = [{'species': 'Herbivore', 'age': 8, 'weight': 13},
                   {'species': 'Herbivore', 'age': 4, 'weight': 11},
@@ -22,7 +22,7 @@ def test_get_number_of_Herbivores():
 
 def test_get_number_of_Carnivores():
     """
-    Tests if it checks amount of Herbivores in the island
+    Tests if it checks amount of Carnivores it is in the population
     """
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 13},
                   {'species': 'Carnivore', 'age': 4, 'weight': 11},
@@ -36,7 +36,7 @@ def test_get_number_of_Carnivores():
 
 def test_animal_aging():
     """
-    Tests if animal age
+    Tests if animal age for every year that passes
     """
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 13}]
 
@@ -50,8 +50,9 @@ def test_animal_aging():
 
 def test_animal_death():
     """
-    Tests if the function removes dead animals
+    Tests if the function removes dead animals from the list
     """
+
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 13},
                   {'species': 'Carnivore', 'age': 4, 'weight': 11},
                   {'species': 'Carnivore', 'age': 7, 'weight': 24}]
@@ -67,9 +68,9 @@ def test_animal_death():
 
 def test_weight_loss():
     """
-
-    :return:
+    Tests if the animal has lost weight after a year
     """
+
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 13}]
 
     highland = Highland()
@@ -82,7 +83,7 @@ def test_weight_loss():
 
 def test_new_herbivore_babies(mocker):
     """
-    tests if the newborn herbivores are added to the herbivore population
+    Tests if the newborn herbivores are added to the herbivore population
     """
     mocker.patch("random.random", return_value=0)
 
@@ -98,7 +99,7 @@ def test_new_herbivore_babies(mocker):
 
 def test_new_carnivore_babies(mocker):
     """
-    tests if the newborn carnivores are added to the carnivore population
+    Tests if the newborn carnivores are added to the carnivore population
     """
     mocker.patch("random.random", return_value=0)
 
@@ -114,8 +115,7 @@ def test_new_carnivore_babies(mocker):
 
 def test_herbivore_eat():
     """
-    tests if herbivore eats, because if they eat they will weigh more
-    :return:
+    Tests if herbivore eats, if they eat they will weigh more
     """
     population = [{'species': 'Herbivore', 'age': 8, 'weight': 31.0},
                   {'species': 'Herbivore', 'age': 4, 'weight': 29.0},
@@ -131,6 +131,9 @@ def test_herbivore_eat():
     assert weight_before < weight_after
 
 def test_carnivore_eat():
+    """
+    Tests if the carnivore eats
+    """
 
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
                   {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
@@ -149,10 +152,9 @@ def test_carnivore_eat():
 
 def test_animal_migrate(mocker):
     """
-    The mocker patch makes the chances more likely for a animal to migrate from one cell to another
+    tests if animals migrate
 
-    :param mocker:
-    :return:
+    The mocker patch makes the chances more likely for a animal to migrate from one cell to another
     """
     mocker.patch("random.random", return_value=0)
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
@@ -172,8 +174,7 @@ def test_animal_migrate(mocker):
 
 def test_new_parameter_set():
     """
-
-    :return:
+    Tests if the function are able to set the new parameters
     """
     Test_parameter = {"f_max": 800}
 
@@ -184,8 +185,7 @@ def test_new_parameter_set():
 
 def test_set_population():
     """
-
-    :return:
+    Tests if the function are able to set a population
     """
     population = [{'species': 'Carnivore', 'age': 8, 'weight': 31.0},
                   {'species': 'Carnivore', 'age': 4, 'weight': 29.0},
@@ -202,6 +202,9 @@ def test_set_population():
     assert len(highland.population_Herbivore) == 4
 
 def test_set_parameters():
+    """
+    Tests if the function are able to update the parameters
+    """
 
     lowland = Lowland()
     lowland.set_food_parameters()
