@@ -41,7 +41,7 @@ that we believe we have manged to achieve during this block period and something
 
 We have enjoyed very much with this project and had a lot of 'aha' moments while programing the simulation.
 This project has helped us with increase our collaboration skills and out knowledge to use Agile development techniques.
-It has been a project that has helped us to develp our skills to work faster, take the right decision and
+It has been a project that has helped us to develop our skills to work faster, take the right decision and
 do things right. 
 
 We can guarantee that this is a project that has learned us a lot of new things and something we will definitely take 
