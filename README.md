@@ -19,7 +19,7 @@ and carnivores and showing their behavior in the island according to their chara
     * island.py
     * landscape.py
     * simulation.py
-    * visualization-py
+    * visualization.py
     
 * ##### checks
     * check_sim.py
@@ -47,4 +47,7 @@ do things right.
 We can guarantee that this is a project that has learned us a lot of new things and something we will definitely take 
 with us and will need in the future. 
 
-#### Imporvment
+#### Some improvements we can make
+* Create more test
+* Better visualization plot
+* Add some extra fixture
