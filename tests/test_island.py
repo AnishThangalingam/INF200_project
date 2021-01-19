@@ -97,6 +97,30 @@ def test_population_in_cell():
     assert len(island.map[(3, 3)].population_carnivore) == 3
 
 
+def test_map_creating():
+    """
+    Tests if the function creates a map for the island Rossumøya, so if the island map creating test passes,
+    it means the function works and will create a map
+    """
+    test_map = """\
+                    WWWWWW
+                    WHHHHW
+                    WHHHHW
+                    WDDDDW
+                    WWWWWW"""
+
+    population = [{'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 5, 'weight': 20}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 8, 'weight': 31.0}]},
+                  {'loc': (3, 3),
+                   'pop': [{'species': 'Carnivore', 'age': 4, 'weight': 29.0}]}]
+
+    island = Island(island_map=test_map, initial_population=[])
+    island.population_in_cell(population)
+    island.map_creating()
+
+
 def test_migration(mocker):
     """
     Test if animals migrate to suitable landscapes, if the population before is not the same as the population after,
@@ -129,9 +153,8 @@ def test_migration(mocker):
 
 def test_island_season_cycle(mocker):
     """
-    Tests if the function gives us the population after a annual cycle in the cell, so if the current population is
-    not the same as next years population. Then the function work and the season cycle affected the animals in the
-    cell.
+    Tests if the function gives us the population after a annual cycle in the cell, so if the island cycle pass the
+    test, it means the function work annually
 
     """
     mocker.patch("random.random", return_value=0)
@@ -152,4 +175,3 @@ def test_island_season_cycle(mocker):
     island = Island(island_map=test_map, initial_population=[])
     island.population_in_cell(population)
     island.island_season_cycle()
-
