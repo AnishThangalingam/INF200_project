@@ -67,4 +67,4 @@ if __name__ == '__main__':
     sim.simulate(num_years=100, vis_years=1, img_years=200)
     sim.add_population(population=ini_carns)
     sim.simulate(num_years=100, vis_years=1, img_years=200)
-    plt.savefig('check_sim_1001.pdf')
+    plt.savefig('check_sim_fig.pdf')
