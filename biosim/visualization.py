@@ -7,8 +7,8 @@ population growth, heatmaps and histograms. It will show the graphics of the sim
 The user must have installed math, numpy and matplotlib package to the python environment to run this script.
 """
 
-__author__ = "Majorann Thevarjah & Anish Thangalingam"
-__email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
+__author__ = "Anish Thangalingam & Majorann Thevarajah"
+__email__ = "Anish.thangalingam@nmbu.no & Majorann.thevarajah@nmbu.no"
 
 import matplotlib.pyplot as plt
 import numpy as np

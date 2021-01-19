@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Anish Thangalingam, Majorann Thevarajah'
-__email__ = 'anish.thangalingam@nmbu.no, majorann.thevarajah@nmbu.no'
+"""
+This script contains several tests, which test the landscape scripts functions.
+
+To use this script the user must have installed the python package to the Python environment and
+import landscape and its subclasses from the biosim package.
+"""
+
+__author__ = 'Anish Thangalingam & Majorann Thevarajah'
+__email__ = 'anish.thangalingam@nmbu.no & majorann.thevarajah@nmbu.no'
 
 from biosim.landscape import Highland, Lowland, Desert
 

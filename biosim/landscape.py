@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 This script contains a main class called landscape and four subclasses called
 Highland, Lowland, Desert and Water. The main class contains characteristics that are common
@@ -13,8 +12,8 @@ To use this script the user has to have installed the random and operator
 package to the Python environment.
 """
 
-__author__ = 'Anish Thangalingam, Majorann Thevarajah'
-__email__ = 'anish.thangalingam@nmbu.no, majorann.thevarajah@nmbu.no'
+__author__ = 'Anish Thangalingam & Majorann Thevarajah'
+__email__ = 'anish.thangalingam@nmbu.no & majorann.thevarajah@nmbu.no'
 
 
 from biosim.animals import Herbivore, Carnivore
