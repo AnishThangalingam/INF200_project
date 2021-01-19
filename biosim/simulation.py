@@ -1,5 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+"""
+This script contains a main class called BioSim where it will run the
+simulation for the island.
+
+The result of the simulation will be shown in a plot window.
+This script has the ability to make mp4 movie of the simulation.
+"""
+
+
 __author__ = "Majorann Thevarjah & Anish Thangalingam"
 __email__ = "Majorann.thevarajah@nmbu.no & Anish.thangalingam@nmbu.no"
 
@@ -9,6 +18,8 @@ from biosim.island import Island
 from biosim.visualization import Visualization
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 import subprocess
 import textwrap
 
@@ -53,7 +64,7 @@ class BioSim:
         random.seed(seed)
         self.island_map = island_map
         self.ini_pop = ini_pop
-        self.Island = Island(self.island_map, self.ini_pop)
+        self.island = Island(self.island_map, self.ini_pop)
 
         if ymax_animals is None:
             # Adjust y-max value
@@ -129,11 +140,44 @@ class BioSim:
         self.visual.subplot_for_year()
 
         self.visual.subplot_for_distribution_plot()
-        distribution = self.distrubutions
+        distribution = self.distributions
         self.visual.herbivore_heat_map_update(distribution)
         self.visual.carnivore_heat_map_update(distribution)
 
         self.visual.subplot_for_histogram()
+        self.visual.fitness_hist_update(self.hist_fitness_data[0], self.hist_fitness_data[1])
+        self.visual.age_hist_update(self.hist_age_data[0], self.hist_age_data[1])
+        self.visual.weight_hist_update(self.hist_weight_data[0], self.hist_weight_data[1])
+
+        while num_years > self._present_year:
+            self.island.island_season_cycle()
+            self._present_year += 1
+            if self.count % vis_years == 0:
+                self.visual.update_graphics_per_year(self.distributions, self.num_animals_per_species,
+                                                     self.year, self.hist_fitness_data[0],
+                                                     self.hist_fitness_data[1],
+                                                     self.hist_age_data[0], self.hist_age_data[1],
+                                                     self.hist_weight_data[0], self.hist_weight_data[1])
+            if self.count % img_years == 0:
+                self.save_fig()
+            self.count += 1
+
+    def save_fig(self):
+        """
+        Saving the Visualizations plot
+        """
+        if self.image_base is None:
+            return
+        plt.savefig('{base}_{num:05d}.{type}'.format(base=self.image_base, num=self.image_counter,
+                                                     type=self.image_format))
+        self.image_counter += 1
+
+    def add_population(self, population):
+        """
+        Add a population to the island
+        :param population: List of dictionaries specifying population
+        """
+        self.island.population_in_cell(population)
 
     @property
     def year(self):
@@ -168,8 +212,79 @@ class BioSim:
             herbivore = len(cell.population_Herbivore)
             carnivore = len(cell.population_Carnivore)
             cell_data.append([row, col, herbivore, carnivore])
-        distribution = pd.DataFrame(data=cell_data, columns=['Row', 'Col', 'Herbivore'])
+        distribution = pd.DataFrame(data=cell_data, columns=['Row', 'Col', 'Herbivore', 'Carnivore'])
         return distribution
+
+    @property
+    def hist_fitness_data(self):
+        """
+        Function that takes in the data for fitness
+
+        :return: herbivore_fitness_dictionary: a dictionary with data
+        :return: carnivore_fitness_dictionary: a dictionary with dat
+        """
+        fitness_herbivore_list = []
+        fitness_carnivore_list = []
+        herbivore_fitness_dictionary = {"fitness": []}
+        carnivore_fitness_dictionary = {"fitness": []}
+        for cell in self.island.map:
+            if self.island.map[cell].flag:
+                for carnivore in self.island.map[cell].population_Carnivore:
+                    fitness_carnivore_list.append(carnivore.fitness)
+
+            for herbivore in self.island.map[cell].population_Herbivore:
+                fitness_herbivore_list.append(herbivore.fitness)
+        herbivore_fitness_dictionary["fitness"] = np.array(fitness_herbivore_list)
+        carnivore_fitness_dictionary["fitness"] = np.array(fitness_carnivore_list)
+        return herbivore_fitness_dictionary, carnivore_fitness_dictionary
+
+    @property
+    def hist_age_data(self):
+        """
+        Function that takes in the data for age.
+
+        :return: herbivore_age_dictionary: a dictionary with data
+        :return: carnivore_age_dictionary: a dictionary with data
+        """
+        age_herbivore_list = []
+        age_carnivore_list = []
+        herbivore_age_dictionary = {"age": []}
+        carnivore_age_dictionary = {"age": []}
+        for cell in self.island.map:
+            if self.island.map[cell].flag:
+                for carnivore in self.island.map[cell].population_Carnivore:
+                    age_carnivore_list.append(carnivore.age)
+
+                for herbivore in self.island.map[cell].population_Herbivore:
+                    age_herbivore_list.append(herbivore.age)
+        herbivore_age_dictionary["age"] = np.array(age_herbivore_list)
+        carnivore_age_dictionary["age"] = np.array(age_carnivore_list)
+
+        return herbivore_age_dictionary, carnivore_age_dictionary
+
+    @property
+    def hist_weight_data(self):
+        """
+        Function that takes in the data for weight.
+
+        :return: herbivore_weight_dictionary: a dictionary with data
+        :return: carnivore_weight_dictionary: a dictionary with data
+        """
+        weight_herbivore_list = []
+        weight_carnivore_list = []
+        herbivore_weight_dictionary = {"weight": []}
+        carnivore_weight_dictionary = {"weight": []}
+        for cell in self.island.map:
+            if self.island.map[cell].flag:
+                for carnivore in self.island.map[cell].population_Carnivore:
+                    weight_carnivore_list.append(carnivore.weight)
+
+                for herbivore in self.island.map[cell].population_Herbivore:
+                    weight_herbivore_list.append(herbivore.weight)
+        herbivore_weight_dictionary["weight"] = np.array(weight_herbivore_list)
+        carnivore_weight_dictionary["weight"] = np.array(weight_carnivore_list)
+
+        return herbivore_weight_dictionary, carnivore_weight_dictionary
 
     def make_movie(self):
         """
@@ -201,5 +316,3 @@ class BioSim:
 
         except subprocess.CalledProcessError as err:
             raise RuntimeError("ERROR: ffmpeg failed with: {}".format(err))
-
-
