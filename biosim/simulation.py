@@ -304,8 +304,6 @@ class BioSim:
                     "-y",
                     "-profile:v",
                     "baseline",
-                    "-filter:v",
-                    "setpts=5*PTS",
                     "-level",
                     "3.0",
                     "-pix_fmt",
